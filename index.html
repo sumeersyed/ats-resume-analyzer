@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="ResumeAI - Free ATS Resume Analyzer and Builder. Optimize your resume for Applicant Tracking Systems and land more interviews.">
+    <meta name="keywords" content="ATS resume, resume analyzer, resume builder, resume score, job application, career tools">
+    <meta name="author" content="ResumeAI">
+    <meta property="og:title" content="ResumeAI - ATS Resume Analyzer & Builder">
+    <meta property="og:description" content="Analyze and optimize your resume for ATS systems. Build professional resumes that pass applicant tracking systems.">
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary_large_image">
+    <title>ResumeAI - ATS Resume Analyzer & Builder | Optimize Your Resume</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="logo">
+                <div class="logo-icon">
+                    <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <defs>
+                            <linearGradient id="logoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" style="stop-color:rgb(139, 92, 246)"/>
+                                <stop offset="100%" style="stop-color:rgb(59, 130, 246)"/>
+                            </linearGradient>
+                        </defs>
+                        <rect x="4" y="4" width="32" height="32" rx="8" fill="url(#logoGradient)"/>
+                        <path d="M12 12h16v2H12zM12 18h12v2H12zM12 24h14v2H12zM28 16l4 4-4 4" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </div>
+                <span class="logo-text">ResumeAI</span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="#features">Features</a></li>
+                <li><a href="#how-it-works">How It Works</a></li>
+                <li><a href="analyzer.html" class="nav-btn-outline">Analyzer</a></li>
+                <li><a href="builder.html" class="nav-btn-primary">Build Resume</a></li>
+            </ul>
+            <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Toggle menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-bg">
+            <div class="gradient-orb gradient-orb-1"></div>
+            <div class="gradient-orb gradient-orb-2"></div>
+            <div class="gradient-orb gradient-orb-3"></div>
+        </div>
+        <div class="container hero-content">
+            <div class="hero-badge">
+                <span class="badge-dot"></span>
+                <span>AI-Powered Resume Analysis</span>
+            </div>
+            <h1 class="hero-title">
+                Land Your Dream Job with an
+                <span class="gradient-text">ATS-Optimized</span> Resume
+            </h1>
+            <p class="hero-description">
+                Analyze your resume instantly against ATS systems, get actionable insights, 
+                and build professional resumes that pass automated screening.
+            </p>
+            <div class="hero-buttons">
+                <a href="analyzer.html" class="btn btn-primary btn-lg">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                        <polyline points="14 2 14 8 20 8"/>
+                        <line x1="16" y1="13" x2="8" y2="13"/>
+                        <line x1="16" y1="17" x2="8" y2="17"/>
+                        <polyline points="10 9 9 9 8 9"/>
+                    </svg>
+                    Analyze Resume
+                </a>
+                <a href="builder.html" class="btn btn-glass btn-lg">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 20h9"/>
+                        <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/>
+                    </svg>
+                    Build Resume
+                </a>
+            </div>
+            <div class="hero-stats">
+                <div class="stat">
+                    <span class="stat-number">50K+</span>
+                    <span class="stat-label">Resumes Analyzed</span>
+                </div>
+                <div class="stat-divider"></div>
+                <div class="stat">
+                    <span class="stat-number">95%</span>
+                    <span class="stat-label">Success Rate</span>
+                </div>
+                <div class="stat-divider"></div>
+                <div class="stat">
+                    <span class="stat-number">Free</span>
+                    <span class="stat-label">Forever</span>
+                </div>
+            </div>
+        </div>
+        <div class="hero-visual">
+            <div class="floating-card card-1">
+                <div class="score-ring">
+                    <svg viewBox="0 0 100 100">
+                        <circle cx="50" cy="50" r="45" class="ring-bg"/>
+                        <circle cx="50" cy="50" r="45" class="ring-progress" style="--progress: 85"/>
+                    </svg>
+                    <span class="score-value">85</span>
+                </div>
+                <span class="card-label">ATS Score</span>
+            </div>
+            <div class="floating-card card-2">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="20 6 9 17 4 12"/>
+                </svg>
+                <span>Keywords Optimized</span>
+            </div>
+            <div class="floating-card card-3">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+                    <polyline points="22 4 12 14.01 9 11.01"/>
+                </svg>
+                <span>ATS Compatible</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features" id="features">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-badge">Features</span>
+                <h2 class="section-title">Everything You Need to <span class="gradient-text">Succeed</span></h2>
+                <p class="section-description">Powerful tools to analyze, optimize, and build resumes that get you hired.</p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon feature-icon-purple">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="11" cy="11" r="8"/>
+                            <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+                        </svg>
+                    </div>
+                    <h3>Deep Analysis</h3>
+                    <p>Our AI scans your resume for 50+ ATS compatibility factors and provides detailed insights.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon feature-icon-blue">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+                        </svg>
+                    </div>
+                    <h3>Instant Scoring</h3>
+                    <p>Get your ATS compatibility score in seconds with actionable improvement suggestions.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon feature-icon-green">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>
+                        </svg>
+                    </div>
+                    <h3>Resume Builder</h3>
+                    <p>Create stunning ATS-friendly resumes with our intuitive drag-and-drop builder.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon feature-icon-pink">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                            <polyline points="7 10 12 15 17 10"/>
+                            <line x1="12" y1="15" x2="12" y2="3"/>
+                        </svg>
+                    </div>
+                    <h3>Easy Export</h3>
+                    <p>Download your optimized resume as PDF or share it directly with employers.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon feature-icon-orange">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                            <line x1="3" y1="9" x2="21" y2="9"/>
+                            <line x1="9" y1="21" x2="9" y2="9"/>
+                        </svg>
+                    </div>
+                    <h3>Multiple Templates</h3>
+                    <p>Choose from professionally designed templates optimized for different industries.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon feature-icon-cyan">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                        </svg>
+                    </div>
+                    <h3>Privacy First</h3>
+                    <p>Your resume data is processed locally. We never store or share your information.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section class="how-it-works" id="how-it-works">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-badge">Process</span>
+                <h2 class="section-title">How It <span class="gradient-text">Works</span></h2>
+                <p class="section-description">Three simple steps to an ATS-optimized resume.</p>
+            </div>
+            <div class="steps-container">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <h3>Upload Your Resume</h3>
+                        <p>Drag and drop your resume or browse to upload. We support PDF, DOCX, and TXT formats.</p>
+                    </div>
+                </div>
+                <div class="step-connector"></div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <h3>Get Analysis Report</h3>
+                        <p>Our AI analyzes your resume against ATS criteria and provides a detailed score and feedback.</p>
+                    </div>
+                </div>
+                <div class="step-connector"></div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <div class="step-content">
+                        <h3>Optimize & Download</h3>
+                        <p>Use our builder to fix issues, optimize content, and download your improved resume.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="container">
+            <div class="cta-card">
+                <div class="cta-bg">
+                    <div class="cta-orb cta-orb-1"></div>
+                    <div class="cta-orb cta-orb-2"></div>
+                </div>
+                <div class="cta-content">
+                    <h2>Ready to Land Your Dream Job?</h2>
+                    <p>Start analyzing your resume now and increase your chances of getting hired.</p>
+                    <div class="cta-buttons">
+                        <a href="analyzer.html" class="btn btn-white btn-lg">Get Started Free</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <a href="index.html" class="logo">
+                        <div class="logo-icon">
+                            <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <defs>
+                                    <linearGradient id="logoGradient2" x1="0%" y1="0%" x2="100%" y2="100%">
+                                        <stop offset="0%" style="stop-color:rgb(139, 92, 246)"/>
+                                        <stop offset="100%" style="stop-color:rgb(59, 130, 246)"/>
+                                    </linearGradient>
+                                </defs>
+                                <rect x="4" y="4" width="32" height="32" rx="8" fill="url(#logoGradient2)"/>
+                                <path d="M12 12h16v2H12zM12 18h12v2H12zM12 24h14v2H12zM28 16l4 4-4 4" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </div>
+                        <span class="logo-text">ResumeAI</span>
+                    </a>
+                    <p>AI-powered resume analyzer and builder to help you land your dream job.</p>
+                </div>
+                <div class="footer-links">
+                    <div class="footer-col">
+                        <h4>Product</h4>
+                        <ul>
+                            <li><a href="analyzer.html">Resume Analyzer</a></li>
+                            <li><a href="builder.html">Resume Builder</a></li>
+                            <li><a href="#features">Features</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-col">
+                        <h4>Resources</h4>
+                        <ul>
+                            <li><a href="#how-it-works">How It Works</a></li>
+                            <li><a href="#">Resume Tips</a></li>
+                            <li><a href="#">FAQ</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 ResumeAI. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/app.js"></script>
+</body>
+</html>
