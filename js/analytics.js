@@ -1,15 +1,15 @@
 /**
- * ResumeAI - Live Analytics & Data Tracking Module
- * Provides live visitor counting, activity feed, and animated counters
+ * ResumeRadar - Live Analytics & Data Tracking Module
+ * Provides live visitor counting, activity feed, animated counters, and random notifications
  */
 
 const Analytics = (function () {
     // Storage keys
     const STORAGE_KEYS = {
-        VISITOR_COUNT: 'resumeai_visitors',
-        ANALYSIS_COUNT: 'resumeai_analyses',
-        SESSION_ID: 'resumeai_session',
-        LAST_VISIT: 'resumeai_last_visit'
+        VISITOR_COUNT: 'resumeradar_visitors',
+        ANALYSIS_COUNT: 'resumeradar_analyses',
+        SESSION_ID: 'resumeradar_session',
+        LAST_VISIT: 'resumeradar_last_visit'
     };
 
     // Sample data for activity feed
@@ -26,6 +26,22 @@ const Analytics = (function () {
         { name: 'Lisa M.', action: 'built a new resume', template: 'Elegant' }
     ];
 
+    // Random user success notifications
+    const successNotifications = [
+        { name: 'John', action: 'just got an interview!', text: 'Used ResumeRadar to optimize resume and scored 92/100', time: 'Just now' },
+        { name: 'Emma', action: 'landed a job at Google!', text: 'Improved ATS score from 65 to 94', time: '2 minutes ago' },
+        { name: 'Mike', action: 'got 3 interview calls!', text: 'After using our resume builder', time: '5 minutes ago' },
+        { name: 'Sophia', action: 'received a job offer!', text: 'From her dream company after optimizing resume', time: 'Just now' },
+        { name: 'Ryan', action: 'scored 98/100!', text: 'His resume is now ATS-optimized', time: '3 minutes ago' },
+        { name: 'Olivia', action: 'got hired at Amazon!', text: 'Thanks to our professional templates', time: '8 minutes ago' },
+        { name: 'Daniel', action: 'improved score by 35%!', text: 'From 58 to 93 in one analysis', time: 'Just now' },
+        { name: 'Ava', action: 'got callback from Meta!', text: 'After using the Modern template', time: '4 minutes ago' },
+        { name: 'Chris', action: 'landed 5 interviews!', text: 'In just one week after optimization', time: '6 minutes ago' },
+        { name: 'Isabella', action: 'doubled her callbacks!', text: 'By following our resume tips', time: '2 minutes ago' },
+        { name: 'Ethan', action: 'got promoted!', text: 'Used ResumeRadar for internal application', time: '10 minutes ago' },
+        { name: 'Mia', action: 'switched to tech career!', text: 'Optimized resume helped land first dev job', time: 'Just now' }
+    ];
+
     // Initialize analytics
     function init() {
         initSession();
@@ -34,6 +50,8 @@ const Analytics = (function () {
         initActivityFeed();
         initScrollReveal();
         initAnimatedCounters();
+        initRandomNotifications();
+        initDonationSelector();
     }
 
     // Initialize session tracking
@@ -49,7 +67,6 @@ const Analytics = (function () {
     // Get/Set visitor count from localStorage
     function getVisitorCount() {
         const count = localStorage.getItem(STORAGE_KEYS.VISITOR_COUNT);
-        // Start with a realistic base number
         return count ? parseInt(count) : 52847;
     }
 
@@ -86,13 +103,11 @@ const Analytics = (function () {
         const statsContainer = document.getElementById('liveStatsDashboard');
         if (!statsContainer) return;
 
-        // Update stats periodically
         setInterval(() => {
             const activeUsers = Math.floor(Math.random() * 50) + 120;
             updateLiveStatValue('activeUsers', activeUsers);
         }, 5000);
 
-        // Occasionally increment analysis count (simulated)
         setInterval(() => {
             if (Math.random() > 0.7) {
                 incrementAnalysisCount();
@@ -135,18 +150,16 @@ const Analytics = (function () {
 
     // Initialize activity feed
     function initActivityFeed() {
-        // Show activity notification periodically
         setInterval(() => {
             if (Math.random() > 0.6) {
                 showActivityNotification();
             }
         }, 12000);
 
-        // Show initial notification after a delay
         setTimeout(showActivityNotification, 3000);
     }
 
-    // Show activity notification
+    // Show activity notification (bottom left)
     function showActivityNotification() {
         const container = document.getElementById('socialProof');
         if (!container) return;
@@ -171,6 +184,63 @@ const Analytics = (function () {
         setTimeout(() => {
             container.classList.remove('show');
         }, 5000);
+    }
+
+    // Initialize random user notifications (bottom right)
+    function initRandomNotifications() {
+        // Show first notification after 8 seconds
+        setTimeout(showRandomNotification, 8000);
+
+        // Show random notifications every 20-40 seconds
+        setInterval(() => {
+            if (Math.random() > 0.4) {
+                showRandomNotification();
+            }
+        }, 25000);
+    }
+
+    // Show random user success notification
+    function showRandomNotification() {
+        const container = document.getElementById('randomNotification');
+        if (!container) return;
+
+        const notification = successNotifications[Math.floor(Math.random() * successNotifications.length)];
+
+        const avatar = document.getElementById('notificationAvatar');
+        const title = document.getElementById('notificationTitle');
+        const text = document.getElementById('notificationText');
+        const time = document.getElementById('notificationTime');
+
+        if (avatar) avatar.textContent = notification.name.charAt(0);
+        if (title) title.innerHTML = `<strong>${notification.name}</strong> ${notification.action}`;
+        if (text) text.textContent = notification.text;
+        if (time) time.textContent = notification.time;
+
+        container.classList.add('show');
+
+        setTimeout(() => {
+            container.classList.remove('show');
+        }, 6000);
+    }
+
+    // Initialize donation amount selector
+    function initDonationSelector() {
+        const amountBtns = document.querySelectorAll('.amount-btn');
+        const customInput = document.getElementById('customAmount');
+
+        amountBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                amountBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                if (customInput) customInput.value = '';
+            });
+        });
+
+        if (customInput) {
+            customInput.addEventListener('focus', () => {
+                amountBtns.forEach(b => b.classList.remove('active'));
+            });
+        }
     }
 
     // Initialize scroll reveal animations
@@ -218,10 +288,8 @@ const Analytics = (function () {
                 question.addEventListener('click', () => {
                     const isActive = item.classList.contains('active');
 
-                    // Close all items
                     faqItems.forEach(i => i.classList.remove('active'));
 
-                    // Open clicked item if it wasn't active
                     if (!isActive) {
                         item.classList.add('active');
                     }
@@ -269,7 +337,8 @@ const Analytics = (function () {
         initFaqAccordion,
         triggerConfetti,
         getGreeting,
-        animateCounter
+        animateCounter,
+        showRandomNotification
     };
 })();
 
