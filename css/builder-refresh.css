@@ -246,14 +246,31 @@ body {
 
 /* Sidebar */
 .builder-sidebar {
-    width: 64px;
-    min-width: 64px;
-    background: rgba(10, 10, 15, 0.98);
-    border-right: 1px solid rgba(255, 255, 255, 0.05);
+    width: 72px;
+    min-width: 72px;
+    background: linear-gradient(180deg, rgba(15, 15, 25, 0.98) 0%, rgba(10, 10, 18, 0.98) 100%);
+    border-right: 1px solid rgba(255, 255, 255, 0.06);
     display: flex;
     flex-direction: column;
-    padding: 12px 6px;
+    padding: 16px 8px;
     overflow-y: auto;
+    overflow-x: hidden;
+    backdrop-filter: blur(20px);
+    position: relative;
+}
+
+.builder-sidebar::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 1px;
+    height: 100%;
+    background: linear-gradient(180deg,
+            transparent 0%,
+            rgba(139, 92, 246, 0.3) 50%,
+            transparent 100%);
+    opacity: 0.5;
 }
 
 @media (max-width: 768px) {
@@ -265,60 +282,75 @@ body {
 .sidebar-nav {
     display: flex;
     flex-direction: column;
-    gap: 2px;
+    gap: 4px;
 }
 
 .sidebar-nav-item {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 2px;
-    padding: 10px 4px;
+    justify-content: center;
+    gap: 4px;
+    padding: 12px 6px;
     background: transparent;
     border: none;
-    border-radius: 8px;
+    border-radius: 12px;
     cursor: pointer;
-    transition: all 0.15s;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
     position: relative;
+    min-height: 56px;
 }
 
 .sidebar-nav-item .nav-icon {
-    width: 22px;
-    height: 22px;
+    width: 28px;
+    height: 28px;
     display: flex;
     align-items: center;
     justify-content: center;
+    border-radius: 10px;
+    background: transparent;
+    transition: all 0.25s ease;
 }
 
 .sidebar-nav-item .nav-icon svg {
-    width: 18px;
-    height: 18px;
-    color: rgba(255, 255, 255, 0.4);
-    transition: color 0.15s;
+    width: 20px;
+    height: 20px;
+    color: rgba(255, 255, 255, 0.45);
+    transition: all 0.25s ease;
 }
 
 .sidebar-nav-item span {
-    font-size: 0.55rem;
+    font-size: 0.6rem;
     font-weight: 500;
-    color: rgba(255, 255, 255, 0.35);
+    color: rgba(255, 255, 255, 0.4);
     text-transform: uppercase;
-    letter-spacing: 0.2px;
+    letter-spacing: 0.3px;
+    transition: all 0.25s ease;
+    text-align: center;
+    line-height: 1.2;
 }
 
+/* Hover State */
 .sidebar-nav-item:hover {
-    background: rgba(255, 255, 255, 0.03);
+    background: rgba(255, 255, 255, 0.04);
+}
+
+.sidebar-nav-item:hover .nav-icon {
+    background: rgba(139, 92, 246, 0.1);
+    transform: scale(1.05);
 }
 
 .sidebar-nav-item:hover .nav-icon svg {
-    color: rgba(255, 255, 255, 0.7);
+    color: rgba(255, 255, 255, 0.85);
 }
 
 .sidebar-nav-item:hover span {
-    color: rgba(255, 255, 255, 0.6);
+    color: rgba(255, 255, 255, 0.7);
 }
 
+/* Active State */
 .sidebar-nav-item.active {
-    background: rgba(139, 92, 246, 0.1);
+    background: rgba(139, 92, 246, 0.08);
 }
 
 .sidebar-nav-item.active::before {
@@ -327,51 +359,105 @@ body {
     left: 0;
     top: 50%;
     transform: translateY(-50%);
-    width: 2px;
-    height: 18px;
-    background: #8b5cf6;
-    border-radius: 0 2px 2px 0;
+    width: 3px;
+    height: 28px;
+    background: linear-gradient(180deg, #a78bfa, #8b5cf6);
+    border-radius: 0 4px 4px 0;
+    box-shadow: 0 0 12px rgba(139, 92, 246, 0.5);
+}
+
+.sidebar-nav-item.active .nav-icon {
+    background: linear-gradient(135deg, rgba(139, 92, 246, 0.2), rgba(99, 102, 241, 0.2));
 }
 
 .sidebar-nav-item.active .nav-icon svg {
     color: #a78bfa;
+    filter: drop-shadow(0 0 6px rgba(167, 139, 250, 0.4));
 }
 
 .sidebar-nav-item.active span {
     color: #a78bfa;
+    font-weight: 600;
 }
 
-/* Sidebar Templates */
+/* Tooltip on hover for larger screens */
+@media (min-width: 1200px) {
+    .sidebar-nav-item::after {
+        content: attr(data-tooltip);
+        position: absolute;
+        left: calc(100% + 12px);
+        top: 50%;
+        transform: translateY(-50%) translateX(-8px);
+        padding: 6px 12px;
+        background: rgba(20, 20, 30, 0.95);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 8px;
+        font-size: 0.75rem;
+        font-weight: 500;
+        color: #f1f5f9;
+        white-space: nowrap;
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.2s ease;
+        backdrop-filter: blur(10px);
+        z-index: 100;
+        pointer-events: none;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+    }
+
+    .sidebar-nav-item:hover::after {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(-50%) translateX(0);
+    }
+}
+
+/* Divider between nav sections */
+.sidebar-divider {
+    height: 1px;
+    background: linear-gradient(90deg,
+            transparent,
+            rgba(255, 255, 255, 0.1),
+            transparent);
+    margin: 12px 0;
+}
+
+/* Sidebar Templates Section */
 .sidebar-templates {
     margin-top: auto;
-    padding: 10px 4px;
-    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    padding: 12px 4px 4px;
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
     display: flex;
     flex-direction: column;
-    max-height: 300px;
+    max-height: 280px;
 }
 
 .sidebar-templates h4 {
-    font-size: 0.5rem;
+    font-size: 0.55rem;
     font-weight: 600;
-    color: rgba(255, 255, 255, 0.25);
+    color: rgba(255, 255, 255, 0.3);
     text-transform: uppercase;
-    letter-spacing: 0.3px;
-    margin-bottom: 4px;
+    letter-spacing: 0.5px;
+    margin-bottom: 6px;
     text-align: center;
+    padding: 0 4px;
 }
 
 .view-all-templates {
-    font-size: 0.5rem;
+    font-size: 0.55rem;
     color: #a78bfa;
     text-decoration: none;
     text-align: center;
-    margin-bottom: 8px;
-    transition: color 0.15s;
+    margin-bottom: 10px;
+    padding: 4px 8px;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+    display: block;
 }
 
 .view-all-templates:hover {
     color: #c4b5fd;
+    background: rgba(139, 92, 246, 0.1);
 }
 
 .template-pills {
@@ -380,7 +466,7 @@ body {
     gap: 4px;
     overflow-y: auto;
     flex: 1;
-    padding-right: 4px;
+    padding: 2px 4px;
 }
 
 .template-pills::-webkit-scrollbar {
@@ -388,7 +474,7 @@ body {
 }
 
 .template-pills::-webkit-scrollbar-track {
-    background: rgba(255, 255, 255, 0.02);
+    background: transparent;
 }
 
 .template-pills::-webkit-scrollbar-thumb {
@@ -396,50 +482,68 @@ body {
     border-radius: 3px;
 }
 
+.template-pills::-webkit-scrollbar-thumb:hover {
+    background: rgba(139, 92, 246, 0.5);
+}
+
 .template-pill {
     display: flex;
     align-items: center;
     gap: 6px;
-    padding: 6px;
-    background: transparent;
-    border: 1px solid rgba(255, 255, 255, 0.06);
-    border-radius: 6px;
+    padding: 8px 6px;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.04);
+    border-radius: 8px;
     cursor: pointer;
-    transition: all 0.15s;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
     font-size: 0.55rem;
     font-weight: 500;
-    color: rgba(255, 255, 255, 0.4);
+    color: rgba(255, 255, 255, 0.5);
     flex-shrink: 0;
 }
 
 .template-pill:hover {
-    background: rgba(255, 255, 255, 0.03);
+    background: rgba(255, 255, 255, 0.05);
     border-color: rgba(255, 255, 255, 0.1);
+    transform: translateX(2px);
 }
 
 .template-pill.active {
-    background: rgba(139, 92, 246, 0.08);
-    border-color: rgba(139, 92, 246, 0.25);
+    background: linear-gradient(135deg, rgba(139, 92, 246, 0.12), rgba(99, 102, 241, 0.08));
+    border-color: rgba(139, 92, 246, 0.3);
     color: #a78bfa;
+    box-shadow: 0 0 16px rgba(139, 92, 246, 0.1);
 }
 
 .pill-preview {
-    width: 16px;
-    height: 20px;
-    background: white;
-    border-radius: 2px;
+    width: 18px;
+    height: 22px;
+    background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+    border-radius: 3px;
     position: relative;
     flex-shrink: 0;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 .pill-preview::before {
     content: '';
     position: absolute;
-    top: 2px;
-    left: 2px;
-    right: 2px;
-    height: 3px;
+    top: 3px;
+    left: 3px;
+    right: 3px;
+    height: 4px;
     background: var(--pill-color, linear-gradient(135deg, #8b5cf6, #3b82f6));
+    border-radius: 2px;
+}
+
+.pill-preview::after {
+    content: '';
+    position: absolute;
+    top: 9px;
+    left: 3px;
+    right: 5px;
+    height: 2px;
+    background: rgba(0, 0, 0, 0.1);
     border-radius: 1px;
 }
 
