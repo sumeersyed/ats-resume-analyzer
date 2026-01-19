@@ -1,11 +1,11 @@
-# ResumeAI - Robots.txt
-# https://www.robotstxt.org/
+# ResumeRadar - robots.txt
+# https://resumeradar.io
 
 User-agent: *
 Allow: /
 
 # Sitemap location
-Sitemap: https://yourusername.github.io/ats-resume-analyzer/sitemap.xml
+Sitemap: https://resumeradar.io/sitemap.xml
 
-# Crawl-delay for respectful crawling
+# Crawl delay for politeness
 Crawl-delay: 1
