@@ -1110,6 +1110,81 @@ function initBuilderV2() {
         };
     }
 
+    // Resizable Panels
+    function initResizablePanels() {
+        const resizeHandle = document.getElementById('resizeHandle');
+        const formPanel = document.querySelector('.builder-form-v2');
+        const previewPanel = document.querySelector('.builder-preview-v2');
+
+        if (!resizeHandle || !formPanel || !previewPanel) return;
+
+        let isResizing = false;
+        let startX = 0;
+        let startFormWidth = 0;
+
+        resizeHandle.addEventListener('mousedown', (e) => {
+            isResizing = true;
+            startX = e.clientX;
+            startFormWidth = formPanel.getBoundingClientRect().width;
+            document.body.style.cursor = 'col-resize';
+            document.body.style.userSelect = 'none';
+            resizeHandle.classList.add('active');
+        });
+
+        document.addEventListener('mousemove', (e) => {
+            if (!isResizing) return;
+
+            const deltaX = e.clientX - startX;
+            const newFormWidth = startFormWidth + deltaX;
+            const containerWidth = document.querySelector('.builder-layout').getBoundingClientRect().width;
+            const sidebarWidth = document.querySelector('.builder-sidebar')?.getBoundingClientRect().width || 72;
+            const minFormWidth = 300;
+            const minPreviewWidth = 350;
+            const availableWidth = containerWidth - sidebarWidth - 6; // 6px for handle
+
+            if (newFormWidth >= minFormWidth && (availableWidth - newFormWidth) >= minPreviewWidth) {
+                formPanel.style.flex = 'none';
+                formPanel.style.width = `${newFormWidth}px`;
+                previewPanel.style.width = `${availableWidth - newFormWidth}px`;
+            }
+        });
+
+        document.addEventListener('mouseup', () => {
+            if (isResizing) {
+                isResizing = false;
+                document.body.style.cursor = '';
+                document.body.style.userSelect = '';
+                resizeHandle.classList.remove('active');
+
+                // Save panel sizes to localStorage
+                localStorage.setItem('builderPanelSizes', JSON.stringify({
+                    formWidth: formPanel.style.width,
+                    previewWidth: previewPanel.style.width
+                }));
+            }
+        });
+
+        // Restore saved panel sizes
+        const savedSizes = localStorage.getItem('builderPanelSizes');
+        if (savedSizes) {
+            try {
+                const sizes = JSON.parse(savedSizes);
+                if (sizes.formWidth) {
+                    formPanel.style.flex = 'none';
+                    formPanel.style.width = sizes.formWidth;
+                }
+                if (sizes.previewWidth) {
+                    previewPanel.style.width = sizes.previewWidth;
+                }
+            } catch (e) {
+                // Ignore parsing errors
+            }
+        }
+    }
+
+    // Initialize resizable panels
+    initResizablePanels();
+
     // Expose close modal
     window.closeAIModal = closeAIModal;
 }

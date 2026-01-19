@@ -25,7 +25,7 @@ body {
 }
 
 /* ============================================
-   Navigation - Clean & Minimal
+   Navigation - Premium Clean Design
    ============================================ */
 .navbar-v2 {
     position: fixed;
@@ -33,20 +33,35 @@ body {
     left: 0;
     right: 0;
     z-index: 1000;
-    height: 56px;
-    background: rgba(10, 10, 15, 0.95);
-    backdrop-filter: blur(12px);
+    height: 60px;
+    background: linear-gradient(180deg, rgba(15, 15, 22, 0.98) 0%, rgba(10, 10, 15, 0.95) 100%);
+    backdrop-filter: blur(20px);
     border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.3);
+}
+
+.navbar-v2::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg,
+            transparent,
+            rgba(139, 92, 246, 0.3),
+            rgba(59, 130, 246, 0.3),
+            transparent);
 }
 
 .nav-container-v2 {
     width: 100%;
     height: 100%;
-    padding: 0 20px;
+    padding: 0 24px;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 20px;
+    gap: 24px;
 }
 
 .logo-v2 {
@@ -68,12 +83,13 @@ body {
 }
 
 .logo-text-v2 {
-    font-size: 1rem;
+    font-size: 1.1rem;
     font-weight: 700;
     background: linear-gradient(135deg, #a78bfa, #60a5fa);
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
+    letter-spacing: -0.02em;
 }
 
 /* Hide progress on smaller screens */
@@ -233,15 +249,58 @@ body {
 }
 
 /* ============================================
-   Auto-Fit Layout
+   Auto-Fit Layout with Resizable Panels
    ============================================ */
 .builder-layout {
     display: flex;
     width: 100vw;
-    height: calc(100vh - 56px);
-    height: calc(100dvh - 56px);
-    padding-top: 56px;
+    height: calc(100vh - 60px);
+    height: calc(100dvh - 60px);
+    padding-top: 60px;
     overflow: hidden;
+}
+
+/* Resizable Panel Handle */
+.resize-handle {
+    width: 6px;
+    background: transparent;
+    cursor: col-resize;
+    position: relative;
+    flex-shrink: 0;
+    z-index: 10;
+    transition: background 0.2s ease;
+}
+
+.resize-handle::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 4px;
+    height: 40px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 2px;
+    opacity: 0;
+    transition: all 0.2s ease;
+}
+
+.resize-handle:hover {
+    background: rgba(139, 92, 246, 0.1);
+}
+
+.resize-handle:hover::before {
+    opacity: 1;
+    background: rgba(139, 92, 246, 0.5);
+}
+
+.resize-handle:active {
+    background: rgba(139, 92, 246, 0.2);
+}
+
+.resize-handle:active::before {
+    background: #8b5cf6;
+    height: 60px;
 }
 
 /* Sidebar */
@@ -988,15 +1047,31 @@ body {
 }
 
 /* ============================================
-   Preview Panel
+   Preview Panel - Clean & Resizable
    ============================================ */
 .builder-preview-v2 {
     width: 50%;
-    min-width: 400px;
-    background: #121218;
+    min-width: 350px;
+    max-width: calc(100vw - 400px);
+    background: linear-gradient(180deg, #141420 0%, #0f0f15 100%);
     display: flex;
     flex-direction: column;
-    border-left: 1px solid rgba(255, 255, 255, 0.05);
+    border-left: none;
+    position: relative;
+}
+
+.builder-preview-v2::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 1px;
+    height: 100%;
+    background: linear-gradient(180deg,
+            transparent 0%,
+            rgba(139, 92, 246, 0.2) 20%,
+            rgba(59, 130, 246, 0.2) 80%,
+            transparent 100%);
 }
 
 @media (max-width: 1100px) {
@@ -1009,9 +1084,24 @@ body {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 10px 16px;
-    background: rgba(10, 10, 15, 0.95);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    padding: 12px 20px;
+    background: linear-gradient(180deg, rgba(20, 20, 30, 0.98) 0%, rgba(15, 15, 22, 0.95) 100%);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    backdrop-filter: blur(10px);
+    gap: 12px;
+}
+
+.preview-header-v2::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg,
+            rgba(139, 92, 246, 0.2),
+            rgba(59, 130, 246, 0.2),
+            rgba(139, 92, 246, 0.2));
 }
 
 .preview-title {
