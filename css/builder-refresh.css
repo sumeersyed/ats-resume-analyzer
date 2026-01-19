@@ -16,6 +16,35 @@ body {
     overflow-x: hidden;
 }
 
+/* Global Custom Scrollbar - Clean Minimal Design */
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgba(139, 92, 246, 0.2);
+    border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(139, 92, 246, 0.4);
+}
+
+::-webkit-scrollbar-corner {
+    background: transparent;
+}
+
+/* Firefox scrollbar */
+* {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(139, 92, 246, 0.2) transparent;
+}
+
 .builder-page-v2 {
     background: #0a0a0f;
     min-height: 100vh;
@@ -305,13 +334,13 @@ body {
 
 /* Sidebar */
 .builder-sidebar {
-    width: 72px;
-    min-width: 72px;
+    width: 56px;
+    min-width: 56px;
     background: linear-gradient(180deg, rgba(15, 15, 25, 0.98) 0%, rgba(10, 10, 18, 0.98) 100%);
     border-right: 1px solid rgba(255, 255, 255, 0.06);
     display: flex;
     flex-direction: column;
-    padding: 16px 8px;
+    padding: 12px 6px;
     overflow-y: auto;
     overflow-x: hidden;
     backdrop-filter: blur(20px);
@@ -349,15 +378,15 @@ body {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 4px;
-    padding: 12px 6px;
+    gap: 0;
+    padding: 10px 6px;
     background: transparent;
     border: none;
-    border-radius: 12px;
+    border-radius: 10px;
     cursor: pointer;
     transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
     position: relative;
-    min-height: 56px;
+    min-height: 40px;
 }
 
 .sidebar-nav-item .nav-icon {
@@ -378,15 +407,9 @@ body {
     transition: all 0.25s ease;
 }
 
+/* Hide sidebar text labels - icon only */
 .sidebar-nav-item span {
-    font-size: 0.6rem;
-    font-weight: 500;
-    color: rgba(255, 255, 255, 0.4);
-    text-transform: uppercase;
-    letter-spacing: 0.3px;
-    transition: all 0.25s ease;
-    text-align: center;
-    line-height: 1.2;
+    display: none;
 }
 
 /* Hover State */
@@ -481,14 +504,9 @@ body {
     margin: 12px 0;
 }
 
-/* Sidebar Templates Section */
+/* Sidebar Templates Section - Hidden for cleaner UI */
 .sidebar-templates {
-    margin-top: auto;
-    padding: 12px 4px 4px;
-    border-top: 1px solid rgba(255, 255, 255, 0.06);
-    display: flex;
-    flex-direction: column;
-    max-height: 280px;
+    display: none;
 }
 
 .sidebar-templates h4 {
@@ -1199,12 +1217,28 @@ body {
 
 .preview-container-v2 {
     flex: 1;
-    padding: 16px;
-    overflow: auto;
+    padding: 20px;
+    overflow-y: auto;
+    overflow-x: hidden;
     display: flex;
     justify-content: center;
     align-items: flex-start;
-    background: #1a1a22;
+    background: linear-gradient(180deg, #1a1a24 0%, #14141c 100%);
+}
+
+/* Hide horizontal scrollbar in preview */
+.preview-container-v2::-webkit-scrollbar {
+    width: 4px;
+    height: 0;
+}
+
+.preview-container-v2::-webkit-scrollbar-thumb {
+    background: rgba(139, 92, 246, 0.15);
+    border-radius: 2px;
+}
+
+.preview-container-v2::-webkit-scrollbar-thumb:hover {
+    background: rgba(139, 92, 246, 0.3);
 }
 
 .resume-preview-v2 {
