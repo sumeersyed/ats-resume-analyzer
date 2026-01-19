@@ -1,0 +1,611 @@
+/* ============================================
+   Templates Gallery Page Styles
+   ============================================ */
+
+.templates-page {
+    background: #0a0a0f;
+    min-height: 100vh;
+}
+
+/* Hero Section */
+.templates-hero {
+    position: relative;
+    padding: 140px 0 60px;
+    overflow: hidden;
+}
+
+.templates-hero .hero-bg {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+}
+
+.templates-hero .gradient-orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: 0.4;
+}
+
+.templates-hero .gradient-orb-1 {
+    width: 400px;
+    height: 400px;
+    background: linear-gradient(135deg, #8b5cf6, #6366f1);
+    top: -100px;
+    right: 10%;
+}
+
+.templates-hero .gradient-orb-2 {
+    width: 300px;
+    height: 300px;
+    background: linear-gradient(135deg, #3b82f6, #06b6d4);
+    bottom: -50px;
+    left: 5%;
+}
+
+.templates-hero-content {
+    text-align: center;
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+.templates-hero h1 {
+    font-size: clamp(2rem, 5vw, 3rem);
+    font-weight: 800;
+    color: #f1f5f9;
+    line-height: 1.2;
+    margin-bottom: 16px;
+}
+
+.templates-hero p {
+    font-size: 1.1rem;
+    color: rgba(255, 255, 255, 0.6);
+    line-height: 1.6;
+}
+
+.templates-hero .section-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    background: rgba(139, 92, 246, 0.1);
+    border: 1px solid rgba(139, 92, 246, 0.2);
+    border-radius: 30px;
+    margin-bottom: 20px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: #a78bfa;
+}
+
+.templates-hero .section-badge svg {
+    width: 16px;
+    height: 16px;
+}
+
+/* Filter Section */
+.templates-filter-section {
+    padding: 0 0 30px;
+    position: sticky;
+    top: 72px;
+    z-index: 100;
+    background: rgba(10, 10, 15, 0.95);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.filter-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 16px 0;
+    flex-wrap: wrap;
+}
+
+.filter-tabs {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.filter-tab {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 10px 18px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 25px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.6);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.filter-tab svg {
+    width: 16px;
+    height: 16px;
+}
+
+.filter-tab:hover {
+    background: rgba(255, 255, 255, 0.06);
+    border-color: rgba(255, 255, 255, 0.12);
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.filter-tab.active {
+    background: linear-gradient(135deg, rgba(139, 92, 246, 0.15), rgba(59, 130, 246, 0.15));
+    border-color: rgba(139, 92, 246, 0.3);
+    color: #a78bfa;
+}
+
+.filter-tab.active svg {
+    color: #a78bfa;
+}
+
+.templates-count {
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.4);
+}
+
+.templates-count span {
+    font-weight: 600;
+    color: #a78bfa;
+}
+
+/* Templates Grid */
+.templates-grid-section {
+    padding: 40px 0 80px;
+}
+
+.templates-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 24px;
+}
+
+/* Template Card */
+.template-card {
+    background: rgba(20, 20, 28, 0.8);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 16px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+}
+
+.template-card:hover {
+    transform: translateY(-8px);
+    border-color: rgba(139, 92, 246, 0.3);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4), 0 0 40px rgba(139, 92, 246, 0.1);
+}
+
+.template-card-preview {
+    position: relative;
+    padding: 20px;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.04));
+    min-height: 300px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.template-card:hover .template-card-preview {
+    background: linear-gradient(135deg, rgba(139, 92, 246, 0.05), rgba(59, 130, 246, 0.05));
+}
+
+/* Template Preview Mini */
+.template-preview-mini {
+    width: 100%;
+    max-width: 200px;
+    background: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+    aspect-ratio: 8.5/11;
+    transform: perspective(500px) rotateY(-2deg);
+    transition: transform 0.3s ease;
+}
+
+.template-card:hover .template-preview-mini {
+    transform: perspective(500px) rotateY(0deg) scale(1.02);
+}
+
+.preview-header-mini {
+    padding: 12px 10px 8px;
+    color: white;
+    text-align: center;
+}
+
+.preview-header-mini.gradient {
+    background: linear-gradient(135deg, var(--primary), var(--secondary, var(--primary))) !important;
+}
+
+.preview-name-mini {
+    font-size: 9px;
+    font-weight: 700;
+    margin-bottom: 2px;
+    opacity: 0.95;
+}
+
+.preview-title-mini {
+    font-size: 6px;
+    opacity: 0.8;
+}
+
+.preview-body-mini {
+    padding: 8px 10px;
+}
+
+.preview-body-mini.two-column {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px;
+}
+
+.preview-body-mini.timeline .preview-section-mini {
+    padding-left: 12px;
+    border-left: 2px solid var(--primary, #8b5cf6);
+    margin-left: 4px;
+}
+
+.preview-section-mini {
+    margin-bottom: 8px;
+}
+
+.preview-section-title-mini {
+    font-size: 6px;
+    font-weight: 700;
+    margin-bottom: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+}
+
+.preview-lines-mini {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+
+.preview-line {
+    height: 3px;
+    background: #e5e7eb;
+    border-radius: 2px;
+}
+
+.preview-line.short {
+    width: 60%;
+}
+
+/* ATS Badge */
+.ats-badge {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 6px 10px;
+    background: rgba(16, 185, 129, 0.15);
+    border: 1px solid rgba(16, 185, 129, 0.3);
+    border-radius: 20px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: #34d399;
+}
+
+.ats-badge.high {
+    background: rgba(16, 185, 129, 0.15);
+    border-color: rgba(16, 185, 129, 0.3);
+    color: #34d399;
+}
+
+.ats-badge.medium {
+    background: rgba(234, 179, 8, 0.15);
+    border-color: rgba(234, 179, 8, 0.3);
+    color: #fbbf24;
+}
+
+.ats-badge.low {
+    background: rgba(239, 68, 68, 0.15);
+    border-color: rgba(239, 68, 68, 0.3);
+    color: #f87171;
+}
+
+.ats-badge svg {
+    width: 12px;
+    height: 12px;
+}
+
+/* Template Card Info */
+.template-card-info {
+    padding: 16px 20px 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.template-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 8px;
+}
+
+.template-card-name {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #f1f5f9;
+    margin: 0;
+}
+
+.template-card-category {
+    font-size: 0.7rem;
+    font-weight: 500;
+    padding: 4px 10px;
+    background: rgba(139, 92, 246, 0.1);
+    border-radius: 12px;
+    color: #a78bfa;
+    text-transform: capitalize;
+}
+
+.template-card-description {
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.5);
+    line-height: 1.5;
+    margin: 0;
+}
+
+/* Use Button (appears on hover) */
+.template-use-btn {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%) translateY(20px);
+    opacity: 0;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 24px;
+    background: linear-gradient(135deg, #8b5cf6, #6366f1);
+    border: none;
+    border-radius: 30px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: white;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 20px rgba(139, 92, 246, 0.4);
+}
+
+.template-use-btn svg {
+    width: 18px;
+    height: 18px;
+}
+
+.template-card:hover .template-use-btn {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+}
+
+.template-use-btn:hover {
+    transform: translateX(-50%) translateY(-2px);
+    box-shadow: 0 8px 30px rgba(139, 92, 246, 0.5);
+}
+
+/* CTA Section */
+.templates-cta {
+    padding: 0 0 80px;
+}
+
+.templates-cta .cta-card {
+    background: linear-gradient(135deg, rgba(139, 92, 246, 0.1), rgba(59, 130, 246, 0.1));
+    border: 1px solid rgba(139, 92, 246, 0.2);
+    border-radius: 24px;
+    padding: 48px;
+    text-align: center;
+}
+
+.templates-cta .cta-content h2 {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #f1f5f9;
+    margin-bottom: 12px;
+}
+
+.templates-cta .cta-content p {
+    font-size: 1rem;
+    color: rgba(255, 255, 255, 0.6);
+    margin-bottom: 24px;
+}
+
+.templates-cta .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.templates-cta .btn svg {
+    width: 20px;
+    height: 20px;
+}
+
+/* Empty State */
+.templates-empty {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 60px 20px;
+}
+
+.templates-empty-icon {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px dashed rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+}
+
+.templates-empty-icon svg {
+    width: 36px;
+    height: 36px;
+    color: rgba(255, 255, 255, 0.2);
+}
+
+.templates-empty h3 {
+    font-size: 1.2rem;
+    color: rgba(255, 255, 255, 0.6);
+    margin-bottom: 8px;
+}
+
+.templates-empty p {
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.4);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .templates-hero {
+        padding: 120px 0 40px;
+    }
+
+    .templates-hero h1 {
+        font-size: 1.8rem;
+    }
+
+    .filter-bar {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .filter-tabs {
+        overflow-x: auto;
+        padding-bottom: 8px;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+    }
+
+    .filter-tabs::-webkit-scrollbar {
+        display: none;
+    }
+
+    .filter-tab {
+        white-space: nowrap;
+        flex-shrink: 0;
+    }
+
+    .templates-grid {
+        grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+        gap: 16px;
+    }
+
+    .template-card-preview {
+        min-height: 240px;
+    }
+
+    .templates-cta .cta-card {
+        padding: 32px 24px;
+    }
+}
+
+/* Animation */
+.template-card {
+    animation: fadeInUp 0.4s ease forwards;
+    opacity: 0;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.templates-grid .template-card:nth-child(1) {
+    animation-delay: 0.05s;
+}
+
+.templates-grid .template-card:nth-child(2) {
+    animation-delay: 0.1s;
+}
+
+.templates-grid .template-card:nth-child(3) {
+    animation-delay: 0.15s;
+}
+
+.templates-grid .template-card:nth-child(4) {
+    animation-delay: 0.2s;
+}
+
+.templates-grid .template-card:nth-child(5) {
+    animation-delay: 0.25s;
+}
+
+.templates-grid .template-card:nth-child(6) {
+    animation-delay: 0.3s;
+}
+
+.templates-grid .template-card:nth-child(7) {
+    animation-delay: 0.35s;
+}
+
+.templates-grid .template-card:nth-child(8) {
+    animation-delay: 0.4s;
+}
+
+.templates-grid .template-card:nth-child(9) {
+    animation-delay: 0.45s;
+}
+
+.templates-grid .template-card:nth-child(10) {
+    animation-delay: 0.5s;
+}
+
+.templates-grid .template-card:nth-child(11) {
+    animation-delay: 0.55s;
+}
+
+.templates-grid .template-card:nth-child(12) {
+    animation-delay: 0.6s;
+}
+
+.templates-grid .template-card:nth-child(13) {
+    animation-delay: 0.65s;
+}
+
+.templates-grid .template-card:nth-child(14) {
+    animation-delay: 0.7s;
+}
+
+.templates-grid .template-card:nth-child(15) {
+    animation-delay: 0.75s;
+}
+
+.templates-grid .template-card:nth-child(16) {
+    animation-delay: 0.8s;
+}
+
+.templates-grid .template-card:nth-child(17) {
+    animation-delay: 0.85s;
+}
+
+.templates-grid .template-card:nth-child(18) {
+    animation-delay: 0.9s;
+}
+
+.templates-grid .template-card:nth-child(19) {
+    animation-delay: 0.95s;
+}
+
+.templates-grid .template-card:nth-child(20) {
+    animation-delay: 1s;
+}

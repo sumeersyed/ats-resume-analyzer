@@ -1,4 +1,5 @@
 // Utility Functions for Resume Analysis and Building
+// With REAL-TIME file parsing using PDF.js and Mammoth.js
 
 /**
  * Format file size to human readable format
@@ -27,7 +28,80 @@ function debounce(func, wait) {
 }
 
 /**
- * Extract text from different file types
+ * Load PDF.js library dynamically
+ */
+async function loadPDFJS() {
+    if (window.pdfjsLib) return window.pdfjsLib;
+
+    return new Promise((resolve, reject) => {
+        const script = document.createElement('script');
+        script.src = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js';
+        script.onload = () => {
+            window.pdfjsLib.GlobalWorkerOptions.workerSrc =
+                'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+            resolve(window.pdfjsLib);
+        };
+        script.onerror = reject;
+        document.head.appendChild(script);
+    });
+}
+
+/**
+ * Load Mammoth.js library dynamically for DOCX parsing
+ */
+async function loadMammoth() {
+    if (window.mammoth) return window.mammoth;
+
+    return new Promise((resolve, reject) => {
+        const script = document.createElement('script');
+        script.src = 'https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js';
+        script.onload = () => resolve(window.mammoth);
+        script.onerror = reject;
+        document.head.appendChild(script);
+    });
+}
+
+/**
+ * Extract text from PDF file using PDF.js - REAL DATA
+ */
+async function extractTextFromPDF(arrayBuffer) {
+    try {
+        const pdfjsLib = await loadPDFJS();
+        const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+        let fullText = '';
+
+        for (let i = 1; i <= pdf.numPages; i++) {
+            const page = await pdf.getPage(i);
+            const textContent = await page.getTextContent();
+            const pageText = textContent.items
+                .map(item => item.str)
+                .join(' ');
+            fullText += pageText + '\n';
+        }
+
+        return fullText.trim();
+    } catch (error) {
+        console.error('PDF extraction error:', error);
+        throw new Error('Failed to extract text from PDF. Please ensure it is a valid PDF file.');
+    }
+}
+
+/**
+ * Extract text from DOCX file using Mammoth.js - REAL DATA
+ */
+async function extractTextFromDOCX(arrayBuffer) {
+    try {
+        const mammoth = await loadMammoth();
+        const result = await mammoth.extractRawText({ arrayBuffer: arrayBuffer });
+        return result.value.trim();
+    } catch (error) {
+        console.error('DOCX extraction error:', error);
+        throw new Error('Failed to extract text from DOCX. Please ensure it is a valid DOCX file.');
+    }
+}
+
+/**
+ * Extract text from different file types - REAL-TIME PARSING
  */
 async function extractTextFromFile(file) {
     const fileType = file.name.split('.').pop().toLowerCase();
@@ -35,20 +109,29 @@ async function extractTextFromFile(file) {
     return new Promise((resolve, reject) => {
         const reader = new FileReader();
 
-        reader.onload = (e) => {
+        reader.onload = async (e) => {
             const content = e.target.result;
 
-            if (fileType === 'txt') {
-                resolve(content);
-            } else if (fileType === 'pdf') {
-                // For PDF, we'll use a simulated extraction
-                // In production, you'd use pdf.js or similar
-                resolve(simulatePDFExtraction(content));
-            } else if (fileType === 'docx' || fileType === 'doc') {
-                // For DOCX, we'll simulate extraction
-                resolve(simulateDocxExtraction(content));
-            } else {
-                reject(new Error('Unsupported file format'));
+            try {
+                if (fileType === 'txt') {
+                    resolve(content);
+                } else if (fileType === 'pdf') {
+                    // REAL PDF extraction using PDF.js
+                    const text = await extractTextFromPDF(content);
+                    resolve(text);
+                } else if (fileType === 'docx') {
+                    // REAL DOCX extraction using Mammoth.js
+                    const text = await extractTextFromDOCX(content);
+                    resolve(text);
+                } else if (fileType === 'doc') {
+                    // .doc format is binary and harder to parse
+                    // Recommend converting to .docx
+                    reject(new Error('Legacy .doc format is not supported. Please save your resume as .docx or .pdf'));
+                } else {
+                    reject(new Error('Unsupported file format. Please upload PDF, DOCX, or TXT.'));
+                }
+            } catch (error) {
+                reject(error);
             }
         };
 
@@ -63,90 +146,40 @@ async function extractTextFromFile(file) {
 }
 
 /**
- * Simulate PDF text extraction (in production, use pdf.js)
- */
-function simulatePDFExtraction(arrayBuffer) {
-    // This is a simulation - in production you'd use pdf.js
-    // For demo purposes, we generate sample resume text
-    return generateSampleResumeText();
-}
-
-/**
- * Simulate DOCX text extraction
- */
-function simulateDocxExtraction(arrayBuffer) {
-    // This is a simulation - in production you'd use mammoth.js or similar
-    return generateSampleResumeText();
-}
-
-/**
- * Generate sample resume text for demonstration
- */
-function generateSampleResumeText() {
-    return `John Doe
-Software Engineer
-johndoe@email.com | (555) 123-4567 | New York, NY
-linkedin.com/in/johndoe | github.com/johndoe
-
-PROFESSIONAL SUMMARY
-Results-driven software engineer with 5+ years of experience developing scalable web applications and leading cross-functional teams. Proven track record of delivering high-quality solutions using modern technologies including React, Node.js, and cloud platforms.
-
-WORK EXPERIENCE
-
-Senior Software Engineer | Tech Company Inc. | 2021 - Present
-- Led development of microservices architecture serving 1M+ daily users
-- Implemented CI/CD pipelines reducing deployment time by 60%
-- Mentored junior developers and conducted code reviews
-- Collaborated with product team to define technical requirements
-
-Software Engineer | StartupXYZ | 2019 - 2021
-- Built responsive web applications using React and TypeScript
-- Developed RESTful APIs with Node.js and Express
-- Optimized database queries improving performance by 40%
-- Participated in agile development processes
-
-EDUCATION
-
-Bachelor of Science in Computer Science
-University of Technology | 2015 - 2019
-GPA: 3.8/4.0
-
-SKILLS
-Programming Languages: JavaScript, TypeScript, Python, Java
-Frameworks: React, Node.js, Express, Django
-Databases: PostgreSQL, MongoDB, Redis
-Cloud: AWS, Google Cloud Platform, Docker, Kubernetes
-Tools: Git, JIRA, Figma
-
-CERTIFICATIONS
-AWS Certified Solutions Architect
-Google Cloud Professional Developer
-
-PROJECTS
-E-commerce Platform - Built full-stack e-commerce solution with payment integration
-Open Source Contributor - Active contributor to React ecosystem libraries`;
-}
-
-/**
- * ATS Keywords dictionary for analysis
+ * ATS Keywords dictionary for analysis - EXPANDED
  */
 const ATS_KEYWORDS = {
     technical: [
-        'javascript', 'python', 'java', 'react', 'node.js', 'sql', 'aws', 'docker',
+        'javascript', 'python', 'java', 'react', 'node.js', 'nodejs', 'sql', 'aws', 'docker',
         'kubernetes', 'git', 'agile', 'scrum', 'typescript', 'html', 'css', 'api',
-        'rest', 'graphql', 'mongodb', 'postgresql', 'mysql', 'redis', 'linux',
-        'ci/cd', 'devops', 'cloud', 'microservices', 'testing', 'debugging'
+        'rest', 'restful', 'graphql', 'mongodb', 'postgresql', 'mysql', 'redis', 'linux',
+        'ci/cd', 'devops', 'cloud', 'microservices', 'testing', 'debugging', 'azure',
+        'gcp', 'google cloud', 'machine learning', 'ai', 'data analysis', 'excel',
+        'powerpoint', 'word', 'salesforce', 'jira', 'confluence', 'slack', 'teams',
+        'angular', 'vue', 'next.js', 'express', 'django', 'flask', 'spring', 'boot',
+        'c++', 'c#', 'ruby', 'go', 'golang', 'rust', 'swift', 'kotlin', 'php',
+        'terraform', 'ansible', 'jenkins', 'gitlab', 'github', 'bitbucket',
+        'tableau', 'power bi', 'spark', 'hadoop', 'kafka', 'elasticsearch'
     ],
     action: [
         'led', 'developed', 'implemented', 'designed', 'managed', 'created',
         'improved', 'increased', 'reduced', 'achieved', 'delivered', 'built',
         'launched', 'optimized', 'streamlined', 'collaborated', 'mentored',
-        'analyzed', 'resolved', 'established', 'initiated', 'spearheaded'
+        'analyzed', 'resolved', 'established', 'initiated', 'spearheaded',
+        'coordinated', 'executed', 'facilitated', 'generated', 'negotiated',
+        'organized', 'planned', 'produced', 'proposed', 'recommended',
+        'restructured', 'revised', 'supervised', 'trained', 'transformed',
+        'upgraded', 'authored', 'consolidated', 'customized', 'decreased',
+        'delegated', 'demonstrated', 'directed', 'doubled', 'eliminated',
+        'enhanced', 'exceeded', 'expanded', 'expedited', 'formulated'
     ],
     soft: [
         'leadership', 'communication', 'teamwork', 'problem-solving', 'analytical',
         'creative', 'adaptable', 'organized', 'detail-oriented', 'motivated',
-        'proactive', 'innovative', 'strategic', 'collaborative'
+        'proactive', 'innovative', 'strategic', 'collaborative', 'self-starter',
+        'time management', 'multitasking', 'critical thinking', 'decision making',
+        'interpersonal', 'presentation', 'negotiation', 'customer service',
+        'project management', 'cross-functional', 'stakeholder', 'deadline-driven'
     ]
 };
 
@@ -154,32 +187,54 @@ const ATS_KEYWORDS = {
  * Required resume sections
  */
 const REQUIRED_SECTIONS = [
-    { name: 'contact', keywords: ['email', 'phone', 'linkedin', 'address', 'location'] },
-    { name: 'summary', keywords: ['summary', 'objective', 'professional summary', 'profile', 'about'] },
-    { name: 'experience', keywords: ['experience', 'work history', 'employment', 'work experience'] },
-    { name: 'education', keywords: ['education', 'academic', 'degree', 'university', 'college'] },
-    { name: 'skills', keywords: ['skills', 'technical skills', 'competencies', 'expertise'] }
+    { name: 'contact', keywords: ['email', 'phone', 'linkedin', 'address', 'location', '@', 'tel', 'mobile'] },
+    { name: 'summary', keywords: ['summary', 'objective', 'professional summary', 'profile', 'about', 'overview'] },
+    { name: 'experience', keywords: ['experience', 'work history', 'employment', 'work experience', 'professional experience', 'career'] },
+    { name: 'education', keywords: ['education', 'academic', 'degree', 'university', 'college', 'bachelor', 'master', 'phd', 'certification'] },
+    { name: 'skills', keywords: ['skills', 'technical skills', 'competencies', 'expertise', 'proficiencies', 'technologies'] }
 ];
 
 /**
- * Analyze resume text and return scores
+ * Analyze resume text and return scores - REAL-TIME ANALYSIS
  */
 function analyzeResume(text) {
+    if (!text || text.trim().length === 0) {
+        return {
+            overallScore: 0,
+            keywordScore: 0,
+            sectionScore: 0,
+            formattingScore: 0,
+            readabilityScore: 0,
+            strengths: ['Unable to extract text from file'],
+            improvements: ['Please ensure the file contains readable text'],
+            suggestions: [],
+            stats: { wordCount: 0, techKeywords: 0, actionVerbs: 0, sectionsFound: 0, bulletPoints: 0, quantifiables: 0 }
+        };
+    }
+
     const lowerText = text.toLowerCase();
-    const words = lowerText.split(/\s+/);
+    const words = lowerText.split(/\s+/).filter(w => w.length > 0);
     const wordCount = words.length;
 
-    // Keyword Analysis
+    // Keyword Analysis - REAL DATA
     let techKeywordCount = 0;
     let actionKeywordCount = 0;
     let softKeywordCount = 0;
+    const foundTechKeywords = [];
+    const foundActionKeywords = [];
 
     ATS_KEYWORDS.technical.forEach(keyword => {
-        if (lowerText.includes(keyword)) techKeywordCount++;
+        if (lowerText.includes(keyword)) {
+            techKeywordCount++;
+            foundTechKeywords.push(keyword);
+        }
     });
 
     ATS_KEYWORDS.action.forEach(keyword => {
-        if (lowerText.includes(keyword)) actionKeywordCount++;
+        if (lowerText.includes(keyword)) {
+            actionKeywordCount++;
+            foundActionKeywords.push(keyword);
+        }
     });
 
     ATS_KEYWORDS.soft.forEach(keyword => {
@@ -188,9 +243,9 @@ function analyzeResume(text) {
 
     const totalKeywords = techKeywordCount + actionKeywordCount + softKeywordCount;
     const maxKeywords = ATS_KEYWORDS.technical.length + ATS_KEYWORDS.action.length + ATS_KEYWORDS.soft.length;
-    const keywordScore = Math.min(100, Math.round((totalKeywords / (maxKeywords * 0.3)) * 100));
+    const keywordScore = Math.min(100, Math.round((totalKeywords / (maxKeywords * 0.25)) * 100));
 
-    // Section Analysis
+    // Section Analysis - REAL DATA
     let sectionsFound = 0;
     const foundSections = [];
     const missingSections = [];
@@ -207,104 +262,163 @@ function analyzeResume(text) {
 
     const sectionScore = Math.round((sectionsFound / REQUIRED_SECTIONS.length) * 100);
 
-    // Formatting Analysis
+    // Formatting Analysis - REAL DATA
     let formattingScore = 100;
     const formattingIssues = [];
 
-    // Check word count (optimal: 400-800 words)
-    if (wordCount < 300) {
-        formattingScore -= 20;
-        formattingIssues.push('Resume is too short. Add more details about your experience.');
-    } else if (wordCount > 1000) {
-        formattingScore -= 10;
-        formattingIssues.push('Resume may be too long. Consider condensing to 1-2 pages.');
+    // Check word count (optimal: 300-700 words per page)
+    if (wordCount < 150) {
+        formattingScore -= 30;
+        formattingIssues.push(`Resume is very short (${wordCount} words). Add more details about your experience and achievements.`);
+    } else if (wordCount < 300) {
+        formattingScore -= 15;
+        formattingIssues.push(`Resume is short (${wordCount} words). Consider adding more relevant content.`);
+    } else if (wordCount > 1200) {
+        formattingScore -= 15;
+        formattingIssues.push(`Resume is lengthy (${wordCount} words). Consider condensing to 1-2 pages.`);
     }
 
     // Check for bullet points
-    const bulletCount = (text.match(/[•\-\*]/g) || []).length;
-    if (bulletCount < 5) {
+    const bulletCount = (text.match(/[•\-\*\●\○\►\▪]/g) || []).length;
+    if (bulletCount < 3) {
         formattingScore -= 15;
-        formattingIssues.push('Use more bullet points to highlight achievements.');
+        formattingIssues.push('Use bullet points to highlight achievements and responsibilities.');
     }
 
     // Check for quantifiable achievements
-    const numberPattern = /\d+%|\d+\+|\$\d+|\d+ years?/gi;
+    const numberPattern = /\d+%|\d+\+|\$[\d,]+|\d+ years?|\d+x|\d+ months?|\d+k|\d+ million|\d+ billion/gi;
     const quantifiables = (text.match(numberPattern) || []).length;
-    if (quantifiables < 3) {
+    if (quantifiables < 2) {
         formattingScore -= 15;
-        formattingIssues.push('Add more quantifiable achievements (percentages, numbers).');
+        formattingIssues.push('Add measurable achievements with numbers, percentages, or dollar amounts.');
+    }
+
+    // Check for email
+    const hasEmail = /[\w.-]+@[\w.-]+\.\w+/.test(text);
+    if (!hasEmail) {
+        formattingScore -= 10;
+        formattingIssues.push('Include a professional email address in your contact information.');
+    }
+
+    // Check for phone
+    const hasPhone = /[\d\-\(\)\+\s]{10,}/.test(text);
+    if (!hasPhone) {
+        formattingScore -= 5;
+        formattingIssues.push('Consider adding a phone number for recruiters to contact you.');
     }
 
     formattingScore = Math.max(0, formattingScore);
 
-    // Readability Analysis
-    const avgWordLength = words.reduce((sum, word) => sum + word.length, 0) / words.length;
+    // Readability Analysis - REAL DATA
+    const avgWordLength = words.reduce((sum, word) => sum + word.length, 0) / Math.max(1, words.length);
     const sentences = text.split(/[.!?]+/).filter(s => s.trim().length > 0);
     const avgSentenceLength = words.length / Math.max(1, sentences.length);
 
     let readabilityScore = 100;
-    if (avgSentenceLength > 25) {
-        readabilityScore -= 20;
+    if (avgSentenceLength > 30) {
+        readabilityScore -= 25;
+    } else if (avgSentenceLength > 25) {
+        readabilityScore -= 15;
     }
-    if (avgWordLength > 7) {
+    if (avgWordLength > 8) {
+        readabilityScore -= 15;
+    } else if (avgWordLength > 7) {
         readabilityScore -= 10;
     }
     readabilityScore = Math.max(0, readabilityScore);
 
     // Calculate overall score
     const overallScore = Math.round(
-        (keywordScore * 0.3) +
+        (keywordScore * 0.30) +
         (sectionScore * 0.25) +
         (formattingScore * 0.25) +
-        (readabilityScore * 0.2)
+        (readabilityScore * 0.20)
     );
 
-    // Generate strengths
+    // Generate strengths based on REAL analysis
     const strengths = [];
-    if (techKeywordCount >= 8) strengths.push('Strong technical keyword presence');
-    if (actionKeywordCount >= 6) strengths.push('Good use of action verbs');
-    if (sectionsFound >= 4) strengths.push('Well-structured with key sections');
-    if (quantifiables >= 3) strengths.push('Includes quantifiable achievements');
-    if (bulletCount >= 8) strengths.push('Good use of bullet points for readability');
-    if (wordCount >= 400 && wordCount <= 800) strengths.push('Optimal resume length');
-
-    if (strengths.length === 0) {
-        strengths.push('Resume uploaded successfully for analysis');
+    if (techKeywordCount >= 10) {
+        strengths.push(`Excellent technical keyword coverage (${techKeywordCount} found: ${foundTechKeywords.slice(0, 5).join(', ')}...)`);
+    } else if (techKeywordCount >= 5) {
+        strengths.push(`Good technical keywords (${techKeywordCount} found including ${foundTechKeywords.slice(0, 3).join(', ')})`);
+    }
+    if (actionKeywordCount >= 8) {
+        strengths.push(`Strong use of action verbs (${actionKeywordCount} found)`);
+    } else if (actionKeywordCount >= 5) {
+        strengths.push(`Good action verbs (${actionKeywordCount} found)`);
+    }
+    if (sectionsFound >= 5) {
+        strengths.push('Complete resume structure with all key sections');
+    } else if (sectionsFound >= 4) {
+        strengths.push('Well-structured resume with most key sections');
+    }
+    if (quantifiables >= 5) {
+        strengths.push(`Excellent quantified achievements (${quantifiables} metrics found)`);
+    } else if (quantifiables >= 3) {
+        strengths.push(`Good use of quantifiable metrics (${quantifiables} found)`);
+    }
+    if (bulletCount >= 10) {
+        strengths.push('Well-formatted with bullet points for readability');
+    }
+    if (wordCount >= 350 && wordCount <= 800) {
+        strengths.push(`Optimal resume length (${wordCount} words)`);
+    }
+    if (hasEmail) {
+        strengths.push('Contact information includes email');
     }
 
-    // Generate improvements
+    if (strengths.length === 0) {
+        strengths.push('Resume was successfully analyzed');
+    }
+
+    // Generate improvements based on REAL analysis
     const improvements = [];
-    if (techKeywordCount < 5) improvements.push('Add more technical keywords relevant to your target role');
-    if (actionKeywordCount < 4) improvements.push('Use stronger action verbs to describe achievements');
+    if (techKeywordCount < 5) {
+        improvements.push(`Add more technical keywords (only ${techKeywordCount} found). Include relevant technologies, tools, and skills.`);
+    }
+    if (actionKeywordCount < 4) {
+        improvements.push(`Use more action verbs (only ${actionKeywordCount} found). Start bullet points with words like "Led", "Developed", "Improved".`);
+    }
     missingSections.forEach(section => {
-        improvements.push(`Add a ${section.charAt(0).toUpperCase() + section.slice(1)} section`);
+        improvements.push(`Add a ${section.charAt(0).toUpperCase() + section.slice(1)} section to your resume`);
     });
     formattingIssues.forEach(issue => improvements.push(issue));
 
     if (improvements.length === 0) {
-        improvements.push('Your resume is well-optimized! Consider tailoring it for specific job postings.');
+        improvements.push('Your resume is well-optimized! Consider tailoring keywords for specific job postings.');
     }
 
-    // Generate suggestions
-    const suggestions = [
-        {
-            title: 'Tailor for Each Application',
-            description: 'Customize your resume keywords to match the specific job description you\'re applying for.'
-        },
-        {
-            title: 'Use Standard Formatting',
-            description: 'Avoid tables, graphics, and unusual fonts that ATS systems may not parse correctly.'
-        },
-        {
-            title: 'Include Contact Information',
-            description: 'Ensure your email, phone, and LinkedIn URL are clearly visible at the top.'
-        }
-    ];
+    // Generate personalized suggestions
+    const suggestions = [];
+
+    if (missingSections.includes('summary')) {
+        suggestions.push({
+            title: 'Add a Professional Summary',
+            description: 'Start with a 2-3 sentence summary highlighting your experience level, key skills, and career goals.'
+        });
+    }
+
+    suggestions.push({
+        title: 'Tailor for Each Application',
+        description: 'Customize your resume keywords to match the specific job description you\'re applying for.'
+    });
 
     if (quantifiables < 5) {
         suggestions.push({
             title: 'Quantify Your Impact',
-            description: 'Add specific numbers, percentages, and metrics to demonstrate your achievements.'
+            description: 'Add specific numbers, percentages, and metrics. Example: "Increased sales by 25%" or "Managed team of 10".'
+        });
+    }
+
+    suggestions.push({
+        title: 'Use ATS-Friendly Formatting',
+        description: 'Avoid tables, graphics, headers/footers, and unusual fonts that ATS systems may not parse correctly.'
+    });
+
+    if (techKeywordCount < 8) {
+        suggestions.push({
+            title: 'Add More Technical Skills',
+            description: `Consider adding relevant skills like: ${ATS_KEYWORDS.technical.slice(0, 10).filter(k => !foundTechKeywords.includes(k)).slice(0, 5).join(', ')}`
         });
     }
 
@@ -323,7 +437,9 @@ function analyzeResume(text) {
             actionVerbs: actionKeywordCount,
             sectionsFound,
             bulletPoints: bulletCount,
-            quantifiables
+            quantifiables,
+            foundTechKeywords: foundTechKeywords.slice(0, 10),
+            foundActionKeywords: foundActionKeywords.slice(0, 10)
         }
     };
 }

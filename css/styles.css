@@ -2166,3 +2166,50 @@ body {
     clip: rect(0, 0, 0, 0);
     border: 0;
 }
+
+/* ============================================
+   ENHANCED Responsive Design - Auto Screen Size
+   ============================================ */
+
+/* Extra Small Devices (phones, 480px and below) */
+@media (max-width: 480px) {
+    .hero-title { font-size: 1.75rem !important; }
+    .hero-description { font-size: 0.95rem !important; }
+    .section-title { font-size: 1.5rem !important; }
+    .btn-lg { padding: 12px 20px !important; font-size: 0.9rem !important; width: 100% !important; }
+    .features-grid { grid-template-columns: 1fr !important; }
+    .metrics-grid { grid-template-columns: 1fr !important; }
+    .analysis-sections { grid-template-columns: 1fr !important; }
+    .score-circle { width: 140px !important; height: 140px !important; }
+    .score-number { font-size: 2.25rem !important; }
+    .upload-zone { padding: 24px !important; }
+    .form-grid { grid-template-columns: 1fr !important; }
+}
+
+/* Medium Devices (tablets, 481px - 1024px) */
+@media (min-width: 481px) and (max-width: 1024px) {
+    .hero-visual { display: none !important; }
+    .builder-main { grid-template-columns: 1fr !important; }
+    .builder-preview { display: none !important; }
+    .features-grid { grid-template-columns: repeat(2, 1fr) !important; }
+}
+
+/* Landscape mobile */
+@media (max-height: 500px) and (orientation: landscape) {
+    .hero { min-height: auto !important; padding: 80px 0 30px !important; }
+    .hero-buttons { flex-direction: row !important; }
+}
+
+/* Accessibility - Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* Focus states */
+a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visible {
+    outline: 2px solid rgb(139, 92, 246) !important;
+    outline-offset: 2px !important;
+}
