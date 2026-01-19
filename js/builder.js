@@ -20,6 +20,16 @@ function initBuilderV2() {
         projects: []
     };
 
+    // Undo/Redo History
+    let historyStack = [];
+    let redoStack = [];
+    const MAX_HISTORY = 50;
+
+    // Save initial state
+    setTimeout(() => {
+        historyStack.push(JSON.parse(JSON.stringify(resumeData)));
+    }, 1000);
+
     // If URL has template, override stored template
     if (urlTemplate && typeof RESUME_TEMPLATES !== 'undefined' && RESUME_TEMPLATES[urlTemplate]) {
         resumeData.template = urlTemplate;
@@ -811,8 +821,70 @@ function initBuilderV2() {
         }
     }
 
-    // Action Buttons
+    // Action Buttons & State Management
     function initActionButtons() {
+        // Save State for Undo/Redo
+        const saveState = debounce(() => {
+            const currentState = JSON.parse(JSON.stringify(resumeData));
+            // Don't save if same as last state
+            if (historyStack.length > 0) {
+                const lastState = historyStack[historyStack.length - 1];
+                if (JSON.stringify(lastState) === JSON.stringify(currentState)) return;
+            }
+            historyStack.push(currentState);
+            if (historyStack.length > MAX_HISTORY) historyStack.shift();
+            redoStack = []; // Clear redo stack on new change
+            updateUndoRedoButtons();
+
+            // Also save to local storage
+            saveToStorage();
+        }, 1000);
+
+        // Global input listener to trigger saveState
+        const formContainer = document.querySelector('.builder-form-v2');
+        if (formContainer) {
+            formContainer.addEventListener('input', saveState);
+            formContainer.addEventListener('change', saveState);
+        }
+
+        // Update Undo/Redo Buttons UI
+        function updateUndoRedoButtons() {
+            if (elements.undoBtn) elements.undoBtn.disabled = historyStack.length <= 1;
+            if (elements.redoBtn) elements.redoBtn.disabled = redoStack.length === 0;
+        }
+
+        // Restore State to UI
+        function restoreState(state) {
+            resumeData = JSON.parse(JSON.stringify(state));
+
+            // Repopulate Personal Info
+            if (document.getElementById('fullName')) document.getElementById('fullName').value = resumeData.personal.fullName || '';
+            if (document.getElementById('jobTitle')) document.getElementById('jobTitle').value = resumeData.personal.jobTitle || '';
+            if (document.getElementById('email')) document.getElementById('email').value = resumeData.personal.email || '';
+            if (document.getElementById('phone')) document.getElementById('phone').value = resumeData.personal.phone || '';
+            if (document.getElementById('location')) document.getElementById('location').value = resumeData.personal.location || '';
+            if (document.getElementById('linkedin')) document.getElementById('linkedin').value = resumeData.personal.linkedin || '';
+            if (document.getElementById('website')) document.getElementById('website').value = resumeData.personal.website || '';
+
+            // Repopulate Summary
+            if (document.getElementById('summary')) {
+                document.getElementById('summary').value = resumeData.summary || '';
+                const count = document.getElementById('summaryCount');
+                if (count) count.textContent = (resumeData.summary || '').length;
+            }
+
+            // Note: Complex sections (Experience, etc.) usually require re-rendering lists or reloading. 
+            // For V2, we'll force a page reload if it's too complex, OR rely on the fact that users 
+            // usually edit text. A full React-like re-render is hard in Vanilla JS without virtual DOM.
+            // But we will update the Preview immediately.
+            updatePreview();
+            saveToStorage();
+            updateUndoRedoButtons();
+
+            // Trigger ATS check on restore
+            updateATSScore();
+        }
+
         if (elements.saveBtn) {
             elements.saveBtn.addEventListener('click', () => {
                 saveToStorage();
@@ -826,13 +898,44 @@ function initBuilderV2() {
 
         if (elements.undoBtn) {
             elements.undoBtn.addEventListener('click', () => {
-                showToast('Undo - Coming soon!');
+                if (historyStack.length > 1) {
+                    const currentState = historyStack.pop();
+                    redoStack.push(currentState);
+                    const prevState = historyStack[historyStack.length - 1];
+                    restoreState(prevState);
+                    showToast('Undone');
+                }
             });
         }
 
         if (elements.redoBtn) {
             elements.redoBtn.addEventListener('click', () => {
-                showToast('Redo - Coming soon!');
+                if (redoStack.length > 0) {
+                    const nextState = redoStack.pop();
+                    historyStack.push(nextState);
+                    restoreState(nextState);
+                    showToast('Redone');
+                }
+            });
+        }
+
+        const clearBtn = document.getElementById('clearBtn');
+        if (clearBtn) {
+            clearBtn.addEventListener('click', () => {
+                if (confirm('Are you sure you want to clear all data? This cannot be undone.')) {
+                    resumeData = {
+                        template: 'modern',
+                        personal: {},
+                        summary: '',
+                        experience: [],
+                        education: [],
+                        skills: [],
+                        certifications: [],
+                        projects: []
+                    };
+                    saveToStorage();
+                    location.reload();
+                }
             });
         }
 
@@ -999,8 +1102,15 @@ function initBuilderV2() {
         const previewSkills = document.getElementById('previewSkills');
         if (skillsSection && previewSkills) {
             skillsSection.style.display = resumeData.skills.length > 0 ? 'block' : 'none';
-            previewSkills.innerHTML = resumeData.skills.map(s => `<span>${s}</span>`).join('');
+            previewSkills.innerHTML = `
+                <div class="skills-list">
+                    ${resumeData.skills.map(skill => `<span>${skill}</span>`).join('')}
+                </div>
+            `;
         }
+
+        // Real-time ATS Analysis
+        updateATSScore();
 
         // Certifications
         const certSection = document.getElementById('previewCertificationsSection');
