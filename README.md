@@ -2,10 +2,7 @@ ResumeAI - ATS Resume Analyzer & Builder
 
 Now You Can Buy Me a Coffee!
 
-<a href="https://www.buymeacoffee.com/sumeersyed"><img src="https://img.buymeacoffee.com/button-api/?text=Buy Me  Coffee&emoji=&slug=sumeersyed&button_colour=FFDD00&font_colour=000000&font_family=Lato&outline_colour=000000&coffee_colour=ffffff" /></a>
-
-
-
+<a href="https://www.buymeacoffee.com/sumeersyed" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="height: 60px !important;width: 217px !important;" ></a>
 
 ![ResumeAI](https://img.shields.io/badge/ResumeAI-v1.0-blue)
 ![License](https://img.shields.io/badge/License-MIT-green)
