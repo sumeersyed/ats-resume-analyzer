@@ -1,0 +1,387 @@
+/**
+ * ResumeRadar Security & Privacy Styles
+ * - Cookie Consent Banner
+ * - Date/Time/Location Widget
+ * - Global RGB Animations & Visuals
+ */
+
+/* ==========================================
+   COOKIE CONSENT BANNER
+   ========================================== */
+.cookie-consent-banner {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(135deg, rgba(15, 15, 35, 0.98), rgba(25, 25, 55, 0.98));
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    padding: 1.25rem 2rem;
+    display: none;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+    z-index: 10000;
+    border-top: 1px solid rgba(139, 92, 246, 0.3);
+    box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.4);
+    transform: translateY(100%);
+    opacity: 0;
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.4s ease;
+}
+
+.cookie-consent-banner.show {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+.cookie-consent-content {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex: 1;
+}
+
+.cookie-consent-icon {
+    width: 40px;
+    height: 40px;
+    min-width: 40px;
+    background: linear-gradient(135deg, #8b5cf6, #6366f1);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.25rem;
+}
+
+.cookie-consent-text {
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 0.9rem;
+    line-height: 1.5;
+}
+
+.cookie-consent-text a {
+    color: #a78bfa;
+    text-decoration: underline;
+    transition: color 0.2s;
+}
+
+.cookie-consent-text a:hover {
+    color: #c4b5fd;
+}
+
+.cookie-consent-buttons {
+    display: flex;
+    gap: 0.75rem;
+    flex-shrink: 0;
+}
+
+.cookie-btn {
+    padding: 0.65rem 1.5rem;
+    border-radius: 10px;
+    font-size: 0.875rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: none;
+    font-family: inherit;
+}
+
+.cookie-btn-accept {
+    background: linear-gradient(135deg, #8b5cf6, #6366f1);
+    color: white;
+    box-shadow: 0 4px 15px rgba(139, 92, 246, 0.4);
+}
+
+.cookie-btn-accept:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 25px rgba(139, 92, 246, 0.5);
+}
+
+.cookie-btn-decline {
+    background: rgba(255, 255, 255, 0.1);
+    color: rgba(255, 255, 255, 0.8);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.cookie-btn-decline:hover {
+    background: rgba(255, 255, 255, 0.15);
+    color: white;
+}
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+    .cookie-consent-banner {
+        flex-direction: column;
+        padding: 1rem 1.25rem;
+        gap: 1rem;
+    }
+
+    .cookie-consent-content {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .cookie-consent-buttons {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .cookie-btn {
+        flex: 1;
+        max-width: 150px;
+    }
+}
+
+/* ==========================================
+   DATE/TIME/LOCATION WIDGET (Enhanced)
+   ========================================== */
+.datetime-widget {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    min-width: 160px;
+    min-height: 80px;
+    background: rgba(15, 15, 35, 0.85);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 1rem;
+    border-radius: 16px;
+    z-index: 9990;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+    resize: both;
+    overflow: hidden;
+    cursor: move;
+    user-select: none;
+    transition: transform 0.1s;
+}
+
+/* RGB Animated Border for Widget */
+.datetime-widget::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    padding: 2px;
+    /* Border width */
+    border-radius: 16px;
+    background: linear-gradient(45deg, #ff0000, #ff7300, #fffb00, #48ff00, #00ffd5, #002bff, #7a00ff, #ff00c8, #ff0000);
+    background-size: 400%;
+    -webkit-mask:
+        linear-gradient(#fff 0 0) content-box,
+        linear-gradient(#fff 0 0);
+    mask:
+        linear-gradient(#fff 0 0) content-box,
+        linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    animation: rgb-border-anim 8s linear infinite;
+    pointer-events: none;
+}
+
+.widget-content-wrapper {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    pointer-events: none;
+}
+
+.widget-content-wrapper * {
+    pointer-events: auto;
+}
+
+.widget-time {
+    font-size: 1.25rem;
+    font-weight: 800;
+    background: linear-gradient(135deg, #fff, #a78bfa);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 2px;
+    white-space: nowrap;
+}
+
+.widget-date {
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.7);
+    margin-bottom: 6px;
+    white-space: nowrap;
+}
+
+.widget-location {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.7rem;
+    color: #a78bfa;
+    margin-bottom: 6px;
+    white-space: nowrap;
+}
+
+.widget-user-counter {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.65rem;
+    color: #4ade80;
+    background: rgba(74, 222, 128, 0.1);
+    padding: 2px 8px;
+    border-radius: 12px;
+    align-self: flex-start;
+    white-space: nowrap;
+}
+
+.pulse-dot {
+    width: 6px;
+    height: 6px;
+    background-color: #4ade80;
+    border-radius: 50%;
+    animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        box-shadow: 0 0 0 0 rgba(74, 222, 128, 0.7);
+    }
+
+    70% {
+        box-shadow: 0 0 0 6px rgba(74, 222, 128, 0);
+    }
+
+    100% {
+        box-shadow: 0 0 0 0 rgba(74, 222, 128, 0);
+    }
+}
+
+@keyframes rgb-border-anim {
+    0% {
+        background-position: 0 0;
+    }
+
+    50% {
+        background-position: 400% 0;
+    }
+
+    100% {
+        background-position: 0 0;
+    }
+}
+
+/* Live Stats Dashboard Specifics - Glass OLED */
+.live-stats-dashboard {
+    background: rgba(255, 255, 255, 0.05) !important;
+    /* Glass effect */
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    /* Subtle border */
+    border-radius: 50px;
+    padding: 0.75rem 2rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 1.5rem;
+    margin-top: 2rem;
+    position: relative;
+    z-index: 1;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+/* Remove old RGB border wrapper style for this specific glass version if user wants glass interior */
+/* We will re-apply the RGB border but thinner to match request "rgb color of all buttons border is should be very thin" */
+.rgb-border-full::before {
+    content: '';
+    position: absolute;
+    inset: -0.5px;
+    /* Ultra thin */
+    border-radius: inherit;
+    background: linear-gradient(45deg, #ff0000, #ff7300, #fffb00, #48ff00, #00ffd5, #002bff, #7a00ff, #ff00c8, #ff0000);
+    background-size: 400%;
+    z-index: -1;
+    animation: rgb-border-anim 10s linear infinite;
+    opacity: 0.8;
+}
+
+.live-stats-dashboard .live-stat-divider {
+    height: 30px;
+    width: 1px;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.live-stats-dashboard .live-stat-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+/* ==========================================
+   GLOBAL RGB ANIMATION UTILITIES
+   ========================================== */
+
+/* Apply this class to any container to give it an RGB border at the bottom or globally */
+.rgb-bar-animate {
+    position: relative;
+}
+
+.rgb-bar-animate::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, #ff0000, #ff7300, #fffb00, #48ff00, #00ffd5, #002bff, #7a00ff, #ff00c8, #ff0000);
+    background-size: 400%;
+    animation: rgb-border-anim 8s linear infinite;
+    z-index: 10;
+    border-radius: 0 0 4px 4px;
+}
+
+/* For full border effect on specific cards or bars */
+.rgb-border-full {
+    position: relative;
+    /* Do not force inheritance on the element itself, let it set its own radius */
+}
+
+/* Add an RGB glow container behind the element */
+.rgb-border-full::before {
+    content: '';
+    position: absolute;
+    inset: -3px;
+    /* made slightly larger for better visibility */
+    border-radius: inherit;
+    background: linear-gradient(45deg, #ff0000, #ff7300, #fffb00, #48ff00, #00ffd5, #002bff, #7a00ff, #ff00c8, #ff0000);
+    background-size: 400%;
+    z-index: -1;
+    animation: rgb-border-anim 10s linear infinite;
+    opacity: 0.8;
+}
+
+
+
+/* Navbar Specific Overlay for RGB */
+.navbar.rgb-mode {
+    border-bottom: none !important;
+    /* Override existing border */
+}
+
+.navbar.rgb-mode::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, #ff0000, #ff7300, #fffb00, #48ff00, #00ffd5, #002bff, #7a00ff, #ff00c8, #ff0000);
+    background-size: 400%;
+    animation: rgb-border-anim 5s linear infinite;
+}
+
+/* Custom Scrollbar for widget resize */
+.datetime-widget::-webkit-scrollbar {
+    width: 0px;
+    height: 0px;
+}

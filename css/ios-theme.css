@@ -1,0 +1,244 @@
+/**
+ * OLED Minimalist Theme (Amoled Pitch Black)
+ * Pure Black Background, Neat UI, RGB Border Buttons
+ */
+
+:root {
+    --oled-bg: #000000;
+    --oled-surface: rgba(255, 255, 255, 0.03);
+    /* Extremely subtle for cards */
+    --oled-border: rgba(255, 255, 255, 0.08);
+    --text-primary: #ffffff;
+    --text-secondary: rgba(255, 255, 255, 0.7);
+    --ios-easing: cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+/* ==========================================
+   GLOBAL RESET & BACKGROUND
+   ========================================== */
+body {
+    background-color: var(--oled-bg) !important;
+    background-image: none !important;
+    /* Ensure no image overrides */
+    font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Inter', sans-serif;
+    color: var(--text-primary);
+    overflow-x: hidden;
+    perspective: 1000px;
+}
+
+/* REMOVED: Animated Mesh Gradient (Cleaner Look) */
+body::before,
+.gradient-orb {
+    display: none !important;
+}
+
+/* ==========================================
+   MINIMALIST GLASS & CARDS
+   ========================================== */
+.glass-panel,
+.card,
+.hero-bg,
+.navbar {
+    background: var(--oled-surface) !important;
+    backdrop-filter: blur(20px) !important;
+    /* Reduced blur for cleaner look */
+    -webkit-backdrop-filter: blur(20px) !important;
+    border: 1px solid var(--oled-border) !important;
+    box-shadow: none !important;
+    /* Flat, clean look */
+    border-radius: 24px !important;
+}
+
+/* Remove unwanted RGB lines from Navbar for strict minimalism */
+.navbar.rgb-mode::after {
+    display: none !important;
+}
+
+.navbar.rgb-mode {
+    border-bottom: 1px solid var(--oled-border) !important;
+}
+
+/* Text Readability */
+h1,
+h2,
+h3 {
+    letter-spacing: -0.02em;
+    font-weight: 700;
+}
+
+p {
+    color: var(--text-secondary);
+    line-height: 1.6;
+}
+
+/* ==========================================
+   BUTTONS: RGB BORDER (Colorful Buttons)
+   ========================================== */
+.btn,
+.action-btn,
+.nav-btn-primary {
+    background: #000000 !important;
+    /* Black background */
+    color: white !important;
+    border-radius: 50px !important;
+    position: relative;
+    z-index: 1;
+    overflow: hidden;
+    border: none !important;
+    transition: transform 0.3s var(--ios-easing);
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+    padding: 12px 30px !important;
+    font-weight: 600;
+}
+
+/* The RGB Gradient Border Effect for Buttons */
+.btn::before,
+.action-btn::before,
+.nav-btn-primary::before {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    /* Border width */
+    border-radius: 50px;
+    background: linear-gradient(45deg, #ff0000, #ff7300, #fffb00, #48ff00, #00ffd5, #002bff, #7a00ff, #ff00c8, #ff0000);
+    background-size: 400%;
+    z-index: -1;
+    animation: rgb-border-anim 8s linear infinite;
+}
+
+/* Inner Black mask to create the "Border" effect */
+.btn::after,
+.action-btn::after,
+.nav-btn-primary::after {
+    content: '';
+    position: absolute;
+    inset: 2px;
+    /* Distance from edge (border thickness) */
+    background: #000000;
+    /* Match body bg */
+    border-radius: 48px;
+    z-index: -1;
+}
+
+.btn:hover,
+.action-btn:hover,
+.nav-btn-primary:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+}
+
+/* ==========================================
+   INPUTS (Minimalist)
+   ========================================== */
+input,
+textarea,
+select {
+    background: #0a0a0a !important;
+    border: 1px solid #333 !important;
+    border-radius: 12px !important;
+    color: white !important;
+    padding: 1rem !important;
+}
+
+input:focus,
+textarea:focus {
+    border-color: #666 !important;
+    outline: none;
+}
+
+/* ==========================================
+   CLEANUP & SMOOTHNESS
+   ========================================== */
+* {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* ==========================================
+   NAV LINKS & BUTTONS: CAPSULE + RGB BORDER
+   ========================================== */
+.nav-links li a,
+.btn-donate-custom {
+    background: #000000 !important;
+    color: white !important;
+    border-radius: 50px !important;
+    position: relative;
+    z-index: 1;
+    text-decoration: none;
+    padding: 8px 20px !important;
+    display: inline-block;
+    transition: transform 0.3s var(--ios-easing);
+    border: none !important;
+}
+
+/* RGB Gradient Border - ULTRA THIN (0.5px) */
+.nav-links li a::before,
+.btn-donate-custom::before {
+    content: '';
+    position: absolute;
+    inset: -0.5px;
+    /* Ultra thin */
+    border-radius: 50px;
+    background: linear-gradient(45deg, #ff0000, #ff7300, #fffb00, #48ff00, #00ffd5, #002bff, #7a00ff, #ff00c8, #ff0000);
+    background-size: 400%;
+    z-index: -1;
+    animation: rgb-border-anim 8s linear infinite;
+}
+
+/* Inner Black Mask - adjusted for 1px border */
+.nav-links li a::after,
+.btn-donate-custom::after {
+    content: '';
+    position: absolute;
+    inset: 1px;
+    background: #000000;
+    border-radius: 49px;
+    z-index: -1;
+}
+
+.nav-links li a:hover,
+.btn-donate-custom:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.1);
+}
+
+/* Specific adjustment for 'Support' Card */
+.support-card {
+    border-radius: 50px !important;
+    position: relative;
+    background: #000 !important;
+    padding: 3rem !important;
+    box-shadow: 0 0 40px rgba(0, 0, 0, 0.8) !important;
+    overflow: hidden;
+}
+
+/* Ultra Thin RGB Border for Support Card */
+.support-card::before {
+    content: '';
+    position: absolute;
+    inset: -0.5px;
+    border-radius: 50px;
+    background: linear-gradient(45deg, #ff0000, #ff7300, #fffb00, #48ff00, #00ffd5, #002bff, #7a00ff, #ff00c8, #ff0000);
+    background-size: 400%;
+    z-index: -1;
+    animation: rgb-border-anim 8s linear infinite;
+}
+
+.support-card::after {
+    content: '';
+    position: absolute;
+    inset: 1px;
+    background: #000;
+    border-radius: 49px;
+    z-index: -1;
+}
+
+::-webkit-scrollbar {
+    width: 8px;
+    background: #000;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #333;
+    border-radius: 4px;
+}

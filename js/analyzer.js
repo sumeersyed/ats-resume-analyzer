@@ -118,8 +118,14 @@ function initAnalyzer() {
             // Analyze the resume
             const results = window.resumeUtils.analyzeResume(text);
 
-            // Display results
-            displayResults(results);
+            // Fetch Live Market Data
+            const loadingText = document.querySelector('.loading-text h3');
+            if (loadingText) loadingText.textContent = `Fetching live market data for ${results.detectedRole}...`;
+
+            const marketData = await window.resumeUtils.fetchMarketData(results.detectedRole);
+
+            // Display results with market data
+            displayResults(results, marketData);
 
         } catch (error) {
             console.error('Analysis failed:', error);
@@ -128,7 +134,7 @@ function initAnalyzer() {
         }
     }
 
-    function displayResults(results) {
+    function displayResults(results, marketData) {
         loadingContainer.style.display = 'none';
         resultsContainer.style.display = 'block';
 
@@ -181,6 +187,51 @@ function initAnalyzer() {
                 <p>${s.description}</p>
             </div>
         `).join('');
+
+        // Display Live Market Insights
+        const marketContainer = document.getElementById('marketInsights');
+        if (!marketContainer && marketData) {
+            // Create container if it doesn't exist (injecting into DOM)
+            const analysisGrid = document.querySelector('.analysis-grid');
+            const marketSection = document.createElement('div');
+            marketSection.className = 'analysis-card market-insights full-width';
+            marketSection.id = 'marketInsights';
+            marketSection.style.marginTop = '2rem';
+
+            marketSection.innerHTML = `
+                <div class="card-header">
+                    <h3>📊 Live Market Intelligence</h3>
+                    <span class="live-badge">
+                        <span class="pulse-dot"></span> LIVE
+                    </span>
+                </div>
+                <div class="market-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; margin-top: 1rem;">
+                    <div class="market-stat">
+                        <span class="label">Role Detected</span>
+                        <strong style="display: block; font-size: 1.1rem; color: var(--text-primary); text-transform: capitalize;">${marketData.role}</strong>
+                    </div>
+                     <div class="market-stat">
+                        <span class="label">Active Job Openings</span>
+                        <strong style="display: block; font-size: 1.1rem; color: var(--text-primary);">${marketData.activeListings}</strong>
+                        <span style="font-size: 0.75rem; color: var(--text-muted); display: block; margin-top: 4px;">Source: ${marketData.source || 'Market DB'}</span>
+                    </div>
+                    <div class="market-stat">
+                        <span class="label">Average Salary Range</span>
+                        <strong style="display: block; font-size: 1.1rem; color: var(--text-primary);">${marketData.avgSalary}</strong>
+                    </div>
+                </div>
+                <div class="trending-skills" style="margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid var(--border-color);">
+                    <span class="label" style="display: block; margin-bottom: 0.5rem;">🔥 Trending Skills for this Role:</span>
+                    <div class="skill-tags">
+                        ${marketData.trendingSkills.map(skill => `<span class="skill-tag" style="background: rgba(139, 92, 246, 0.1); color: var(--primary-purple); border: 1px solid rgba(139, 92, 246, 0.2);">${skill}</span>`).join('')}
+                    </div>
+                </div>
+            `;
+
+            if (analysisGrid) {
+                analysisGrid.parentNode.insertBefore(marketSection, analysisGrid.nextSibling);
+            }
+        }
     }
 
     function animateScore(targetScore) {

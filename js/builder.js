@@ -117,6 +117,8 @@ function initBuilderV2() {
                 resumeData.template = pill.dataset.template;
                 updateTemplateStyle();
                 saveToStorage();
+                // Trigger real-time update
+                updateATSScore();
             });
         });
 
@@ -205,11 +207,24 @@ function initBuilderV2() {
 
         // Update widget color based on score
         const widget = document.getElementById('atsScoreWidget');
+        const scoreLabel = document.querySelector('.ats-score-label');
+
         if (widget) {
-            widget.classList.remove('high', 'medium', 'low');
-            if (result.score >= 80) widget.classList.add('high');
-            else if (result.score >= 60) widget.classList.add('medium');
-            else widget.classList.add('low');
+            widget.classList.remove('high', 'medium', 'low', 'pulse-update');
+            // Trigger pulse animation
+            void widget.offsetWidth; // trigger reflow
+            widget.classList.add('pulse-update');
+
+            if (result.score >= 80) {
+                widget.classList.add('high');
+                if (scoreLabel) scoreLabel.textContent = 'Excellent';
+            } else if (result.score >= 60) {
+                widget.classList.add('medium');
+                if (scoreLabel) scoreLabel.textContent = 'Good';
+            } else {
+                widget.classList.add('low');
+                if (scoreLabel) scoreLabel.textContent = 'Needs Work';
+            }
         }
     }
 
@@ -241,7 +256,12 @@ function initBuilderV2() {
                     updatePreview();
                     saveToStorage();
                     updateCompletionBadge();
-                }, 200));
+                    updatePreview();
+                    saveToStorage();
+                    updateCompletionBadge();
+                    // Real-time score update
+                    updateATSScore();
+                }, 1000)); // Debounce 1s for scoring to avoid too much calculation
             }
         });
         updateCompletionBadge();
@@ -269,7 +289,11 @@ function initBuilderV2() {
                 if (summaryCount) summaryCount.textContent = summaryInput.value.length;
                 updatePreview();
                 saveToStorage();
-            }, 200));
+                if (summaryCount) summaryCount.textContent = summaryInput.value.length;
+                updatePreview();
+                saveToStorage();
+                updateATSScore();
+            }, 1000));
         }
     }
 
@@ -543,7 +567,9 @@ function initBuilderV2() {
             resumeData.skills.push(skill);
             renderSkillTags();
             updatePreview();
+            updatePreview();
             saveToStorage();
+            updateATSScore();
         }
     }
 

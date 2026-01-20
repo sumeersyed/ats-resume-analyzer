@@ -6,7 +6,7 @@
 const ReefaChat = (function () {
     const config = {
         name: 'Reefa',
-        avatar: 'assets/logo.png', // Use site logo or custom avatar
+        avatar: 'assets/logo_brand.png', // Use site logo or custom avatar
         suggestions: [
             "How do I improve my ATS score?",
             "What keywords should I include?",
