@@ -49,21 +49,21 @@ npx serve .
 
 ## 🌐 Live Demo
 
-Visit the live demo: [ResumeAI on GitHub Pages](https://yourusername.github.io/ats-resume-analyzer)
+Visit the live demo: [ResumeAI on GitHub Pages](https://sumeersyed.github.io/ats-resume-analyzer)
 
 ## 🚀 Quick Deploy to GitHub Pages
 
 1. Create a new repository on GitHub
 2. Push this code to your repository:
    ```bash
-   git remote add origin https://github.com/yourusername/ats-resume-analyzer.git
+   git remote add origin https://github.com/sumeersyed/ats-resume-analyzer.git
    git branch -M main
    git push -u origin main
    ```
 3. Go to repository Settings > Pages
 4. Select "Deploy from a branch" and choose `main` / `/ (root)`
 5. Click Save and wait 1-2 minutes for deployment
-6. Your site will be live at `https://yourusername.github.io/ats-resume-analyzer`
+6. Your site will be live at `https://sumeersyed.github.io/ats-resume-analyzer`
 
 
 ## 📁 Project Structure
