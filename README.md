@@ -39,12 +39,12 @@ A modern, ultra-fast web application for analyzing resumes against ATS (Applican
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/yourusername/ats-resume-analyzer.git
+git clone https://github.com/sumeersyed/ats-resume-analyzer.git
 ```
 
 2. Open `index.html` in your browser or use a local server:
 ```bash
-npx serve .
+npx serve
 ```
 
 ## 🌐 Live Demo
