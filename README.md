@@ -1,6 +1,6 @@
-# ResumeAI - ATS Resume Analyzer & Builder
+ResumeAI - ATS Resume Analyzer & Builder
 
-<script type="text/javascript" src="https://cdnjs.buymeacoffee.com/1.0.0/button.prod.min.js" data-name="bmc-button" data-slug="sumeersyed" data-color="#FFDD00" data-emoji=""  data-font="Poppins" data-text="Buy me a coffee" data-outline-color="#000000" data-font-color="#000000" data-coffee-color="#ffffff" ></script>  
+# <img width="400" height="150" alt="bmc-button" src="https://github.com/user-attachments/assets/8f0215dc-f352-4f4b-a208-83a16015676f"/>
 
 
 ![ResumeAI](https://img.shields.io/badge/ResumeAI-v1.0-blue)
