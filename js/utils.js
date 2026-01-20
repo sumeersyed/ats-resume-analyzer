@@ -150,6 +150,7 @@ async function extractTextFromFile(file) {
  */
 const ATS_KEYWORDS = {
     technical: [
+        // Tech
         'javascript', 'python', 'java', 'react', 'node.js', 'nodejs', 'sql', 'aws', 'docker',
         'kubernetes', 'git', 'agile', 'scrum', 'typescript', 'html', 'css', 'api',
         'rest', 'restful', 'graphql', 'mongodb', 'postgresql', 'mysql', 'redis', 'linux',
@@ -159,7 +160,20 @@ const ATS_KEYWORDS = {
         'angular', 'vue', 'next.js', 'express', 'django', 'flask', 'spring', 'boot',
         'c++', 'c#', 'ruby', 'go', 'golang', 'rust', 'swift', 'kotlin', 'php',
         'terraform', 'ansible', 'jenkins', 'gitlab', 'github', 'bitbucket',
-        'tableau', 'power bi', 'spark', 'hadoop', 'kafka', 'elasticsearch'
+        'tableau', 'power bi', 'spark', 'hadoop', 'kafka', 'elasticsearch',
+        // Finance & Business
+        'financial analysis', 'budgeting', 'forecasting', 'accounting', 'gaap', 'reconciliation',
+        'audit', 'tax', 'compliance', 'reporting', 'variance analysis', 'risk management',
+        'valuation', 'modeling', 'investment', 'portfolio', 'sap', 'oracle', 'quickbooks',
+        // Marketing & Sales
+        'seo', 'sem', 'content marketing', 'google analytics', 'social media', 'campaign',
+        'crm', 'lead generation', 'branding', 'market research', 'copywriting', 'email marketing',
+        'ppc', 'hubspot', 'mailchimp', 'adobe creative suite', 'photoshop', 'illustrator',
+        // Healthcare
+        'patient care', 'emr', 'ehr', 'hipaa', 'diagnosis', 'treatment', 'clinical',
+        'nursing', 'medical records', 'vital signs', 'triage', 'phlebotomy',
+        // General
+        'strategy', 'operations', 'logistics', 'supply chain', 'procurement', 'vendor management'
     ],
     action: [
         'led', 'developed', 'implemented', 'designed', 'managed', 'created',
@@ -171,7 +185,9 @@ const ATS_KEYWORDS = {
         'restructured', 'revised', 'supervised', 'trained', 'transformed',
         'upgraded', 'authored', 'consolidated', 'customized', 'decreased',
         'delegated', 'demonstrated', 'directed', 'doubled', 'eliminated',
-        'enhanced', 'exceeded', 'expanded', 'expedited', 'formulated'
+        'enhanced', 'exceeded', 'expanded', 'expedited', 'formulated',
+        'accelerated', 'amplified', 'boosted', 'finalized', 'guided', 'maximized',
+        'modernized', 'oversaw', 'pioneered', 'redesigned', 'revitalized', 'shaped'
     ],
     soft: [
         'leadership', 'communication', 'teamwork', 'problem-solving', 'analytical',
@@ -179,7 +195,8 @@ const ATS_KEYWORDS = {
         'proactive', 'innovative', 'strategic', 'collaborative', 'self-starter',
         'time management', 'multitasking', 'critical thinking', 'decision making',
         'interpersonal', 'presentation', 'negotiation', 'customer service',
-        'project management', 'cross-functional', 'stakeholder', 'deadline-driven'
+        'project management', 'cross-functional', 'stakeholder', 'deadline-driven',
+        'emotional intelligence', 'conflict resolution', 'mentoring', 'flexibility'
     ]
 };
 
@@ -308,7 +325,7 @@ async function fetchMarketData(role) {
             resolve({
                 role: role || 'General Professional',
                 ...data,
-                source: 'Market Insights DB',
+                source: 'Historical Data (Offline)',
                 timestamp: new Date().toISOString()
             });
         }, latency);

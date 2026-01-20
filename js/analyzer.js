@@ -112,8 +112,7 @@ function initAnalyzer() {
             // Extract text from file
             const text = await window.resumeUtils.extractTextFromFile(selectedFile);
 
-            // Simulate processing time for better UX
-            await new Promise(resolve => setTimeout(resolve, 2000));
+            // Processing text...
 
             // Analyze the resume
             const results = window.resumeUtils.analyzeResume(text);
@@ -137,6 +136,12 @@ function initAnalyzer() {
     function displayResults(results, marketData) {
         loadingContainer.style.display = 'none';
         resultsContainer.style.display = 'block';
+
+        // Show transparency: Proof that text was read
+        const resultsHeader = document.querySelector('.results-header p');
+        if (resultsHeader) {
+            resultsHeader.innerHTML = `Analysis complete based on <strong>${results.stats.wordCount}</strong> words extracted from your file. <br> <span style="font-size: 0.85em; opacity: 0.8">Processing time: Instant (Real-time)</span>`;
+        }
 
         // Add SVG gradient definition for score circle
         const svgDefs = `
