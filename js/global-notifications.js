@@ -271,7 +271,7 @@
     // PART 2: 2000 Success Messages
     const messages = [
         // Career Success (500+)
-        "Just got my dream job! ResumeRadar helped me improve my ATS score from 65 to 95!",
+        "Just got my dream job! Zume helped me improve my ATS score from 65 to 95!",
         "Landed 3 interviews this week after optimizing my resume here. Amazing tool!",
         "My resume passed the ATS screening for the first time ever. Thank you!",
         "Got hired at my dream company! The AI analysis was spot-on!",
@@ -562,3 +562,4 @@
     init();
 
 })();
+

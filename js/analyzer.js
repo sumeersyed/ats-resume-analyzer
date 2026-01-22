@@ -304,3 +304,4 @@ function initAnalyzer() {
         setTimeout(animate, delay[name] || 400);
     }
 }
+

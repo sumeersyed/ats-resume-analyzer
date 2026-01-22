@@ -1,11 +1,12 @@
-# ResumeRadar - robots.txt
-# https://resumeradar.io
+# Zume - robots.txt
+# https://Zume.io
 
 User-agent: *
 Allow: /
 
 # Sitemap location
-Sitemap: https://resumeradar.io/sitemap.xml
+Sitemap: https://Zume.io/sitemap.xml
 
 # Crawl delay for politeness
 Crawl-delay: 1
+

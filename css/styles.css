@@ -2668,3 +2668,379 @@ textarea:focus-visible {
     display: inline-block;
     transition: opacity 0.3s ease, transform 0.3s ease;
 }
+
+/* Logo Resize Override */
+.logo-icon {
+    width: auto !important;
+    height: 50px !important;
+    background: transparent !important;
+    padding: 0 !important;
+    border: none !important;
+}
+
+.logo-icon-img {
+    height: 100% !important;
+    width: auto !important;
+    max-height: 50px !important;
+    object-fit: contain;
+}
+
+.logo {
+    gap: 0 !important;
+    text-decoration: none;
+}
+
+
+/* Logo Size Increase V2 */
+.logo-icon {
+    height: 70px !important;
+    width: auto !important;
+}
+
+.logo-icon-img {
+    max-height: 70px !important;
+}
+
+.navbar {
+    height: auto !important;
+    min-height: 80px;
+    padding: 10px 0;
+}
+
+
+/* Logo Size Increase V3 (Huge) */
+.logo-icon {
+    height: 120px !important;
+    width: auto !important;
+}
+
+.logo-icon-img {
+    max-height: 120px !important;
+}
+
+.navbar {
+    min-height: 140px !important;
+    padding: 15px 0 !important;
+}
+
+
+/* Header Size Reduction */
+.navbar {
+    min-height: 80px !important;
+    padding: 10px 0 !important;
+}
+
+.logo-icon {
+    height: 70px !important;
+}
+
+.logo-icon-img {
+    max-height: 70px !important;
+}
+
+
+/* Navbar Reduction to 50px */
+.navbar,
+.dashboard-header {
+    min-height: 50px !important;
+    padding: 5px 0 !important;
+}
+
+.logo-icon {
+    height: 40px !important;
+}
+
+.logo-icon-img {
+    max-height: 40px !important;
+}
+
+
+/* Dashboard Specific Logo Resize (50%) */
+.sidebar-header .logo-icon {
+    height: 25px !important;
+}
+
+.sidebar-header .logo-icon-img {
+    max-height: 25px !important;
+}
+
+
+
+
+/* ============================================
+   UPDATED STYLES FOR USER REQUEST
+   ============================================ */
+
+/* 1. INCREASE LOGO SIZE & ALIGNMENT */
+.logo-icon {
+    width: auto !important;
+    height: 120px !important;
+    background: transparent !important;
+    padding: 0 !important;
+    border: none !important;
+    position: relative;
+    z-index: 10;
+    /* Removed margin-top to allow flexbox centering */
+    margin-top: 0;
+    display: flex;
+    align-items: center;
+}
+
+.logo-icon-img {
+    height: 100% !important;
+    width: auto !important;
+    max-height: 120px !important;
+    object-fit: contain;
+}
+
+/* Navbar container alignment handled in HTML via inline flex styles, 
+   but we ensure no extra padding acts up here */
+
+/* TYPING EFFECT CSS - INFINITE LOOP (5s) */
+.typing-line-wrapper {
+    display: block;
+    /* Ensure separate lines */
+    width: fit-content;
+    margin-bottom: 5px;
+    /* Spacing between lines */
+}
+
+.typing-text-line {
+    display: inline-block;
+    overflow: hidden;
+    white-space: nowrap;
+    border-right: 3px solid transparent;
+    /* Cursor hidden by default */
+    width: 0;
+    /* Start hidden */
+}
+
+/* Line 1: "Build your future with" - White */
+.line-1 {
+    color: #ffffff;
+    animation: typing-line1 5s steps(30, end) infinite;
+}
+
+/* Line 2: "Zume." - Red */
+.line-2 {
+    color: #ef4444;
+    /* Bright Red */
+    animation: typing-line2 5s steps(30, end) infinite;
+}
+
+/* Keyframes for Line 1 */
+@keyframes typing-line1 {
+    0% {
+        width: 0;
+        border-right-color: var(--primary-purple);
+    }
+
+    30% {
+        width: 100%;
+        border-right-color: var(--primary-purple);
+    }
+
+    /* Type in */
+    45% {
+        width: 100%;
+        border-right-color: transparent;
+    }
+
+    /* Wait */
+    90% {
+        width: 100%;
+        border-right-color: transparent;
+    }
+
+    /* Stay visible */
+    95% {
+        width: 0;
+        border-right-color: transparent;
+    }
+
+    /* Clear fast */
+    100% {
+        width: 0;
+        border-right-color: transparent;
+    }
+}
+
+/* Keyframes for Line 2 */
+@keyframes typing-line2 {
+    0% {
+        width: 0;
+        border-right-color: transparent;
+    }
+
+    40% {
+        width: 0;
+        border-right-color: transparent;
+    }
+
+    /* Wait for line 1 */
+    45% {
+        width: 0;
+        border-right-color: var(--primary-purple);
+    }
+
+    /* Start cursor */
+    65% {
+        width: 100%;
+        border-right-color: var(--primary-purple);
+    }
+
+    /* Type in */
+    80% {
+        width: 100%;
+        border-right-color: transparent;
+    }
+
+    /* Stop cursor */
+    90% {
+        width: 100%;
+        border-right-color: transparent;
+    }
+
+    /* Stay visible */
+    95% {
+        width: 0;
+        border-right-color: transparent;
+    }
+
+    /* Clear fast */
+    100% {
+        width: 0;
+        border-right-color: transparent;
+    }
+}
+
+/* Hero Padding Adjustment to Clear Nav */
+.hero {
+    padding-top: 160px !important;
+    /* Push content down to clear 120px nav */
+}
+
+/* Remove default sidebar logo adjustment if it conflicts */
+.sidebar-header .logo-icon {
+
+    height: 24px !important;
+}
+
+.sidebar-header .logo-icon-img {
+    max-height: 24px !important;
+}
+
+
+/* 2. DEVELOPER CREDIT UPDATE & FIX */
+.developer-credit {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    z-index: 9999;
+    padding: 8px 12px;
+    background: transparent !important;
+    /* Remove button shape bg */
+    backdrop-filter: none !important;
+    border: none !important;
+    box-shadow: none !important;
+    font-size: 0.85rem;
+    /* Slightly larger text */
+    font-weight: 600;
+    color: var(--text-secondary);
+    /* Default text color */
+    text-decoration: none;
+    opacity: 1 !important;
+    /* Ensure always visible */
+    transform: none !important;
+    animation: none !important;
+    pointer-events: none;
+    /* Let clicks pass through */
+    text-align: right;
+    width: auto;
+}
+
+.developer-credit span {
+    background: linear-gradient(90deg, #ff00cc, #3b82f6);
+    /* Gradient text */
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Remove effects */
+.developer-credit::before,
+.developer-credit::after {
+    display: none !important;
+}
+
+.developer-credit:hover {
+    transform: none !important;
+    box-shadow: none !important;
+}
+
+
+/* 3. CAPSULE DATE/TIME WIDGET (Bottom Left) */
+.datetime-widget {
+    position: fixed !important;
+    /* Force stay on screen */
+    bottom: 20px !important;
+    left: 20px !important;
+    top: auto !important;
+    right: auto !important;
+    transform: none !important;
+    background: rgba(15, 23, 42, 0.65);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 50px;
+    padding: 8px 16px;
+    z-index: 10000 !important;
+    /* Ensure on top */
+    display: flex !important;
+    flex-direction: row;
+    align-items: center;
+    gap: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    transition: background 0.3s ease, box-shadow 0.3s ease;
+    /* No transform */
+    opacity: 1 !important;
+    /* Never hide */
+    visibility: visible !important;
+}
+
+.datetime-widget:hover {
+    background: rgba(15, 23, 42, 0.85);
+    border-color: rgba(255, 255, 255, 0.2);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+}
+
+.widget-time {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #ffffff;
+    writing-mode: horizontal-tb;
+    transform: none;
+    margin: 0;
+    font-family: 'Monaco', 'Consolas', monospace;
+    letter-spacing: 0.5px;
+    display: block !important;
+}
+
+.widget-date {
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.6);
+    writing-mode: horizontal-tb;
+    transform: none;
+    display: block !important;
+    /* Force visible */
+    margin: 0;
+    padding-left: 12px;
+    border-left: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.widget-location {
+    display: none !important;
+}

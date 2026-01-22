@@ -1,15 +1,15 @@
 /**
- * ResumeRadar - Live Analytics & Data Tracking Module
+ * Zume - Live Analytics & Data Tracking Module
  * Provides live visitor counting, activity feed, animated counters, and random notifications
  */
 
 const Analytics = (function () {
     // Storage keys
     const STORAGE_KEYS = {
-        VISITOR_COUNT: 'resumeradar_visitors',
-        ANALYSIS_COUNT: 'resumeradar_analyses',
-        SESSION_ID: 'resumeradar_session',
-        LAST_VISIT: 'resumeradar_last_visit'
+        VISITOR_COUNT: 'Zume_visitors',
+        ANALYSIS_COUNT: 'Zume_analyses',
+        SESSION_ID: 'Zume_session',
+        LAST_VISIT: 'Zume_last_visit'
     };
 
     // Sample data for activity feed
@@ -28,7 +28,7 @@ const Analytics = (function () {
 
     // Random user success notifications
     const successNotifications = [
-        { name: 'John', action: 'just got an interview!', text: 'Used ResumeRadar to optimize resume and scored 92/100', time: 'Just now' },
+        { name: 'John', action: 'just got an interview!', text: 'Used Zume to optimize resume and scored 92/100', time: 'Just now' },
         { name: 'Emma', action: 'landed a job at Google!', text: 'Improved ATS score from 65 to 94', time: '2 minutes ago' },
         { name: 'Mike', action: 'got 3 interview calls!', text: 'After using our resume builder', time: '5 minutes ago' },
         { name: 'Sophia', action: 'received a job offer!', text: 'From her dream company after optimizing resume', time: 'Just now' },
@@ -38,7 +38,7 @@ const Analytics = (function () {
         { name: 'Ava', action: 'got callback from Meta!', text: 'After using the Modern template', time: '4 minutes ago' },
         { name: 'Chris', action: 'landed 5 interviews!', text: 'In just one week after optimization', time: '6 minutes ago' },
         { name: 'Isabella', action: 'doubled her callbacks!', text: 'By following our resume tips', time: '2 minutes ago' },
-        { name: 'Ethan', action: 'got promoted!', text: 'Used ResumeRadar for internal application', time: '10 minutes ago' },
+        { name: 'Ethan', action: 'got promoted!', text: 'Used Zume for internal application', time: '10 minutes ago' },
         { name: 'Mia', action: 'switched to tech career!', text: 'Optimized resume helped land first dev job', time: 'Just now' }
     ];
 
@@ -352,3 +352,4 @@ document.addEventListener('DOMContentLoaded', () => {
 if (typeof window !== 'undefined') {
     window.Analytics = Analytics;
 }
+

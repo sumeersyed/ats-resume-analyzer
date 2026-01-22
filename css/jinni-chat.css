@@ -1,4 +1,4 @@
-/* Reefa Chatbot Styles */
+/* Jinni Chatbot Styles */
 :root {
     --chat-primary: #8b5cf6;
     --chat-bg: #0f172a;
@@ -7,47 +7,94 @@
     --chat-text: #f1f5f9;
 }
 
-.reefa-chat-widget {
-    position: fixed;
-    bottom: 2rem;
-    right: 2rem;
-    z-index: 9999;
+.jinni-chat-widget {
+    position: fixed !important;
+    /* Force fixed */
+    bottom: 2.5rem !important;
+    /* Move up slightly to clear dev credit */
+    right: 2rem !important;
+    z-index: 10001 !important;
+    /* Topmost */
     font-family: 'Inter', sans-serif;
+    display: block !important;
+    opacity: 1 !important;
+    visibility: visible !important;
 }
 
-.reefa-toggle-btn {
-    width: 60px;
-    height: 60px;
+/* FLOATING JINNI ANIMATION */
+@keyframes floatJinni {
+    0% {
+        transform: translateY(0px);
+    }
+
+    50% {
+        transform: translateY(-12px);
+    }
+
+    100% {
+        transform: translateY(0px);
+    }
+}
+
+@keyframes glowPulse {
+    0% {
+        box-shadow: 0 0 15px rgba(139, 92, 246, 0.4);
+    }
+
+    50% {
+        box-shadow: 0 0 25px rgba(139, 92, 246, 0.7), 0 0 10px rgba(59, 130, 246, 0.5);
+    }
+
+    100% {
+        box-shadow: 0 0 15px rgba(139, 92, 246, 0.4);
+    }
+}
+
+.jinni-toggle-btn {
+    width: 70px;
+    height: 70px;
     border-radius: 50%;
-    background: linear-gradient(135deg, var(--chat-primary), #3b82f6);
-    border: none;
-    box-shadow: 0 4px 20px rgba(139, 92, 246, 0.4);
+    background: linear-gradient(135deg, #7c3aed, #2563eb);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    transition: all 0.3s ease;
+    animation: floatJinni 3s ease-in-out infinite, glowPulse 2s infinite;
     position: relative;
+    overflow: hidden;
+    padding: 0;
+    /* Clear padding for image */
 }
 
-.reefa-toggle-btn:hover {
-    transform: scale(1.1);
+.jinni-toggle-btn:hover {
+    transform: scale(1.1) translateY(-5px);
+    animation-play-state: paused;
 }
 
-.reefa-toggle-btn svg {
-    width: 30px;
-    height: 30px;
-    color: white;
+/* Image Styling */
+.jinni-toggle-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
 }
 
-.reefa-notification-badge {
+.jinni-toggle-btn svg {
+    display: none;
+    /* Hide if using image */
+}
+
+.jinni-notification-badge {
     position: absolute;
-    top: -5px;
-    right: -5px;
+    top: 0;
+    right: 0;
     background: #ef4444;
     color: white;
-    width: 20px;
-    height: 20px;
+    width: 22px;
+    height: 22px;
     border-radius: 50%;
     font-size: 11px;
     font-weight: bold;
@@ -55,9 +102,12 @@
     align-items: center;
     justify-content: center;
     border: 2px solid var(--chat-bg);
+    z-index: 2;
 }
 
-.reefa-chat-window {
+/* Ensure Chat Window is above everything */
+.jinni-chat-window {
+    z-index: 10002;
     position: absolute;
     bottom: 80px;
     right: 0;
@@ -77,12 +127,12 @@
     overflow: hidden;
 }
 
-.reefa-chat-window.active {
+.jinni-chat-window.active {
     transform: scale(1);
     opacity: 1;
 }
 
-.reefa-header {
+.jinni-header {
     padding: 1rem;
     background: linear-gradient(90deg, rgba(139, 92, 246, 0.1), rgba(59, 130, 246, 0.1));
     border-bottom: 1px solid rgba(255, 255, 255, 0.05);
@@ -91,13 +141,13 @@
     justify-content: space-between;
 }
 
-.reefa-bot-info {
+.jinni-bot-info {
     display: flex;
     align-items: center;
     gap: 0.75rem;
 }
 
-.reefa-avatar {
+.jinni-avatar {
     width: 40px;
     height: 40px;
     border-radius: 50%;
@@ -108,30 +158,18 @@
     position: relative;
 }
 
-.reefa-avatar::after {
-    content: '';
-    position: absolute;
-    bottom: 2px;
-    right: 2px;
-    width: 8px;
-    height: 8px;
-    background: #22c55e;
-    border-radius: 50%;
-    border: 2px solid var(--chat-bg);
-}
-
-.reefa-name {
+.jinni-name {
     font-weight: 600;
     color: white;
     font-size: 1rem;
 }
 
-.reefa-status {
+.jinni-status {
     font-size: 0.75rem;
     color: #94a3b8;
 }
 
-.reefa-close {
+.jinni-close {
     background: none;
     border: none;
     color: #94a3b8;
@@ -140,11 +178,11 @@
     transition: color 0.2s;
 }
 
-.reefa-close:hover {
+.jinni-close:hover {
     color: white;
 }
 
-.reefa-messages {
+.jinni-messages {
     flex: 1;
     overflow-y: auto;
     padding: 1rem;
@@ -154,7 +192,7 @@
     scroll-behavior: smooth;
 }
 
-.reefa-message {
+.jinni-message {
     max-width: 80%;
     padding: 0.75rem 1rem;
     border-radius: 12px;
@@ -175,7 +213,7 @@
     }
 }
 
-.reefa-message.bot {
+.jinni-message.bot {
     background: var(--chat-bubble-bot);
     color: var(--chat-text);
     border-bottom-left-radius: 2px;
@@ -183,21 +221,21 @@
     border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
-.reefa-message.user {
-    background: linear-gradient(135deg, var(--chat-primary), #3b82f6);
+.jinni-message.user {
+    background: linear-gradient(135deg, #7c3aed, #3b82f6);
     color: white;
     border-bottom-right-radius: 2px;
     align-self: flex-end;
 }
 
-.reefa-input-area {
+.jinni-input-area {
     padding: 1rem;
     border-top: 1px solid rgba(255, 255, 255, 0.05);
     display: flex;
     gap: 0.5rem;
 }
 
-.reefa-input {
+.jinni-input {
     flex: 1;
     background: rgba(255, 255, 255, 0.05);
     border: 1px solid rgba(255, 255, 255, 0.1);
@@ -210,12 +248,12 @@
     transition: all 0.2s;
 }
 
-.reefa-input:focus {
+.jinni-input:focus {
     background: rgba(255, 255, 255, 0.1);
     border-color: rgba(139, 92, 246, 0.5);
 }
 
-.reefa-send {
+.jinni-send {
     background: none;
     border: none;
     color: var(--chat-primary);
@@ -224,7 +262,7 @@
     transition: transform 0.2s;
 }
 
-.reefa-send:hover {
+.jinni-send:hover {
     transform: scale(1.1);
     color: #3b82f6;
 }
@@ -274,9 +312,9 @@
 }
 
 @media (max-width: 480px) {
-    .reefa-chat-window {
+    .jinni-chat-window {
         width: calc(100vw - 40px);
         right: -10px;
-        bottom: 70px;
+        bottom: 90px;
     }
 }

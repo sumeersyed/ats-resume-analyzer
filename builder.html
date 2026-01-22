@@ -652,10 +652,50 @@
         </button>
     </div>
 
-    <!-- Chatbot -->
-    <link rel="stylesheet" href="css/reefa-chat.css">
-    <script src="js/reefa-chat.js"></script>
+    <!-- ATS Feedback Modal -->
+    <div id="atsFeedbackModal" class="modal-overlay">
+        <div class="modal-content glass-panel">
+            <div class="modal-header">
+                <h2>ATS Analysis Report</h2>
+                <button class="close-modal-btn" id="closeAtsModal" aria-label="Close">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="ats-score-circle">
+                    <div class="score-ring">
+                        <svg viewBox="0 0 100 100">
+                            <circle class="score-bg" cx="50" cy="50" r="45"></circle>
+                            <circle class="score-progress" cx="50" cy="50" r="45"></circle>
+                        </svg>
+                        <div class="score-number" id="modalScoreValue">0</div>
+                    </div>
+                    <div class="score-grade" id="modalScoreGrade">Calculating...</div>
+                </div>
 
+                <div class="ats-breakdown">
+                    <h3>Analysis Factors</h3>
+                    <ul id="atsFactorsList" class="factors-list">
+                        <!-- Factors will be injected here -->
+                    </ul>
+                </div>
+
+                <div class="ats-tips">
+                    <p class="tip-header">💡 Improvement Tip</p>
+                    <p id="atsTopTip">Complete your profile to see improvements.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Chatbot -->
+    <link rel="stylesheet" href="css/jinni-chat.css">
+    <script src="js/jinni-chat.js"></script>
+
+    <script src="js/template-definitions.js"></script>
     <script src="js/pdf-exporter.js"></script>
     <script src="js/builder.js"></script>
     <script src="js/drag-drop.js"></script>
@@ -676,18 +716,7 @@
         </div>
     </div>
 
-    <!-- Date/Time/Location Widget -->
-    <div class="datetime-widget" id="datetimeWidget">
-        <div class="widget-time" id="widgetTime">--:--:-- --</div>
-        <div class="widget-date" id="widgetDate">--- --, ----</div>
-        <div class="widget-location" id="widgetLocation">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12">
-                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
-                <circle cx="12" cy="10" r="3" />
-            </svg>
-            Detecting location...
-        </div>
-    </div>
+
 
     <!-- Developer Credit Badge -->
     <div class="developer-credit">

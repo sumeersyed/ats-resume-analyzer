@@ -654,3 +654,4 @@ window.resumeUtils = {
     getRatingLabel,
     getScoreMessage
 };
+

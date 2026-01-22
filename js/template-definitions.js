@@ -692,3 +692,4 @@ function calculateATSScore(resumeData) {
 if (typeof module !== 'undefined' && module.exports) {
     module.exports = { RESUME_TEMPLATES, TEMPLATE_CATEGORIES, getTemplate, getAllTemplates, getTemplatesByCategory, calculateATSScore };
 }
+

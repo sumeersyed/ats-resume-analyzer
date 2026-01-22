@@ -130,3 +130,4 @@ window.appUtils = {
 
 // Initialize Donation on Load - Handled in index.html
 // document.addEventListener('DOMContentLoaded', initDonation);
+

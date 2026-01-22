@@ -1,5 +1,5 @@
 /**
- * ResumeRadar Security & Privacy Module
+ * Zume Security & Privacy Module
  * - Data encryption using Web Crypto API (AES-GCM)
  * - Secure localStorage wrapper
  * - Cookie consent management
@@ -326,188 +326,7 @@
     // ==========================================
     // DATE/TIME/LOCATION WIDGET
     // ==========================================
-    const DateTimeWidget = {
-        element: null,
-        locationData: null,
-        isDragging: false,
-        dragOffset: { x: 0, y: 0 },
 
-        init() {
-            this.element = document.getElementById('datetimeWidget');
-            if (!this.element) return;
-
-            this.updateDateTime();
-            setInterval(() => this.updateDateTime(), 1000);
-
-            this.initLocation();
-            this.initDragAndDrop();
-
-            // Ensure container exists for user counter (managed by StatsManager now, but structure needed)
-            if (!document.getElementById('widgetUserCounter')) {
-                const counterEl = document.createElement('div');
-                counterEl.className = 'widget-user-counter';
-                counterEl.id = 'widgetUserCounter';
-                counterEl.innerHTML = `<span class="pulse-dot"></span> <span id="activeUserCount">0</span> Live Users`;
-
-                // Insert before location or append
-                const loc = document.getElementById('widgetLocation');
-                if (loc) {
-                    this.element.insertBefore(counterEl, loc.nextSibling);
-                } else {
-                    this.element.appendChild(counterEl);
-                }
-            }
-
-            // Wrap contents for better resize handling
-            if (!this.element.querySelector('.widget-content-wrapper')) {
-                const wrapper = document.createElement('div');
-                wrapper.className = 'widget-content-wrapper';
-                while (this.element.firstChild) {
-                    wrapper.appendChild(this.element.firstChild);
-                }
-                this.element.appendChild(wrapper);
-            }
-        },
-
-        updateDateTime() {
-            const now = new Date();
-            const dateEl = document.getElementById('widgetDate');
-            const timeEl = document.getElementById('widgetTime');
-
-            if (dateEl) {
-                const options = { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' };
-                dateEl.textContent = now.toLocaleDateString('en-US', options);
-            }
-
-            if (timeEl) {
-                const timeOptions = { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true };
-                timeEl.textContent = now.toLocaleTimeString('en-US', timeOptions);
-            }
-        },
-
-        initLocation() {
-            const locationEl = document.getElementById('widgetLocation');
-            if (!locationEl) return;
-
-            if (navigator.geolocation) {
-                locationEl.innerHTML = 'Asking permission...';
-                navigator.geolocation.getCurrentPosition(
-                    async (position) => {
-                        try {
-                            const resp = await fetch(`https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${position.coords.latitude}&longitude=${position.coords.longitude}&localityLanguage=en`);
-                            const data = await resp.json();
-                            this.displayLocation(data.city, data.countryCode);
-                        } catch (e) {
-                            this.displayLocation(`${position.coords.latitude.toFixed(2)}, ${position.coords.longitude.toFixed(2)}`, 'GPS');
-                        }
-                    },
-                    (error) => {
-                        console.log('Geolocation permission denied or error, falling back to IP');
-                        this.detectIPLocation();
-                    }
-                );
-            } else {
-                this.detectIPLocation();
-            }
-        },
-
-        async detectIPLocation() {
-            try {
-                const response = await fetch('https://ipapi.co/json/');
-                if (response.ok) {
-                    const data = await response.json();
-                    this.displayLocation(data.city, data.country_code);
-                } else {
-                    document.getElementById('widgetLocation').textContent = 'Location unavailable';
-                }
-            } catch (e) {
-                document.getElementById('widgetLocation').textContent = 'Location unavailable';
-            }
-        },
-
-        displayLocation(city, country) {
-            const locationEl = document.getElementById('widgetLocation');
-            if (locationEl) {
-                locationEl.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg> ${city}, ${country}`;
-            }
-        },
-
-        initDragAndDrop() {
-            const el = this.element;
-            if (!el) return;
-
-            // Auto-scale text on resize
-            const resizeObserver = new ResizeObserver(entries => {
-                for (let entry of entries) {
-                    const width = entry.contentRect.width;
-                    // Base size 160px -> 1rem. Scale accordingly.
-                    const scale = width / 160;
-                    const newSize = Math.max(0.7, Math.min(scale, 2.5)); // Min 0.7rem, Max 2.5rem
-
-                    el.style.fontSize = `${newSize}rem`;
-
-                    // Adjust sub-elements if needed
-                    const timeEl = document.getElementById('widgetTime');
-                    if (timeEl) timeEl.style.fontSize = `${newSize * 1.25}rem`;
-                }
-            });
-            resizeObserver.observe(el);
-
-            el.addEventListener('mousedown', (e) => {
-                if (e.target.tagName === 'BUTTON' || e.target.tagName === 'A') return;
-
-                const rect = el.getBoundingClientRect();
-                const isResizeZone = (e.clientX > rect.right - 20) && (e.clientY > rect.bottom - 20);
-                if (isResizeZone) return;
-
-                this.isDragging = true;
-
-                this.dragOffset.x = e.clientX - rect.left;
-                this.dragOffset.y = e.clientY - rect.top;
-
-                el.style.cursor = 'grabbing';
-                el.style.transition = 'none';
-            });
-
-            // Auto-hide after 10 seconds
-            setTimeout(() => {
-                el.style.transition = 'opacity 1s ease, transform 1s ease';
-                el.style.opacity = '0';
-                el.style.pointerEvents = 'none'; // Prevent interaction when hidden
-            }, 10000); // 10 seconds
-
-            document.addEventListener('mousemove', (e) => {
-                if (!this.isDragging) return;
-
-                e.preventDefault();
-
-                let x = e.clientX - this.dragOffset.x;
-                let y = e.clientY - this.dragOffset.y;
-
-                const rect = el.getBoundingClientRect();
-                const winWidth = window.innerWidth;
-                const winHeight = window.innerHeight;
-
-                if (x < 0) x = 0;
-                if (y < 0) y = 0;
-                if (x + rect.width > winWidth) x = winWidth - rect.width;
-                if (y + rect.height > winHeight) y = winHeight - rect.height;
-
-                el.style.left = x + 'px';
-                el.style.top = y + 'px';
-                el.style.right = 'auto';
-                el.style.bottom = 'auto';
-            });
-
-            document.addEventListener('mouseup', () => {
-                if (this.isDragging) {
-                    this.isDragging = false;
-                    el.style.cursor = 'move';
-                    el.style.transition = 'transform 0.1s';
-                }
-            });
-        }
-    };
 
     // ==========================================
     // INITIALIZATION
@@ -517,7 +336,7 @@
 
         // Initialize independent modules
         CookieConsent.init();
-        DateTimeWidget.init();
+        // DateTimeWidget.init(); // Removed
         StatsManager.init(); // New Stats Init
 
         window.SecureStorage = SecureStorage;
@@ -531,3 +350,4 @@
     }
 
 })();
+

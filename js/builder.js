@@ -9,6 +9,8 @@ function initBuilderV2() {
     const urlTemplate = urlParams.get('template');
 
     // State
+    let latestATSResult = null; // Store latest ATS result
+
     let resumeData = loadFromStorage() || {
         template: urlTemplate || 'modern',
         personal: { fullName: '', jobTitle: '', email: '', phone: '', location: '', linkedin: '', website: '' },
@@ -199,20 +201,49 @@ function initBuilderV2() {
         }
     }
 
-    function updateATSScore() {
-        if (!elements.atsScoreValue || typeof calculateATSScore === 'undefined') return;
+    const debouncedATSUpdate = debounce(async () => {
+        if (!elements.atsScoreValue) return;
 
-        const result = calculateATSScore(resumeData);
+        try {
+            // 1. Try Python API for "Exact" Score
+            const response = await fetch('/api/analyze', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(resumeData)
+            });
+
+            if (response.ok) {
+                const result = await response.json();
+                updateScoreUI(result);
+                return;
+            }
+        } catch (e) {
+            console.log('Python API unavailable, falling back to local JS');
+        }
+
+        // 2. Fallback to Local JS
+        if (typeof calculateATSScore !== 'undefined') {
+            const result = calculateATSScore(resumeData);
+            updateScoreUI(result);
+        }
+    }, 500); // 500ms debounce
+
+    function updateATSScore() {
+        debouncedATSUpdate();
+    }
+
+    function updateScoreUI(result) {
+        latestATSResult = result; // Save to global state
+
+        if (!elements.atsScoreValue) return;
         elements.atsScoreValue.textContent = result.score;
 
-        // Update widget color based on score
         const widget = document.getElementById('atsScoreWidget');
         const scoreLabel = document.querySelector('.ats-score-label');
 
         if (widget) {
             widget.classList.remove('high', 'medium', 'low', 'pulse-update');
-            // Trigger pulse animation
-            void widget.offsetWidth; // trigger reflow
+            void widget.offsetWidth; // Trigger reflow
             widget.classList.add('pulse-update');
 
             if (result.score >= 80) {
@@ -229,19 +260,85 @@ function initBuilderV2() {
     }
 
     function showATSFeedback() {
-        if (typeof calculateATSScore === 'undefined') {
-            showToast('ATS scoring not available');
-            return;
+        const atsModal = document.getElementById('atsFeedbackModal');
+
+        if (!latestATSResult) {
+            // Force an update if no result yet
+            if (typeof calculateATSScore !== 'undefined') {
+                latestATSResult = calculateATSScore(resumeData);
+            } else {
+                showToast('ATS scoring not available');
+                return;
+            }
         }
 
-        const result = calculateATSScore(resumeData);
-
-        if (result.factors.length === 0) {
-            showToast(`🎉 Excellent! Your resume scores ${result.score}% - ${result.grade}`);
+        if (atsModal) {
+            populateATSModal(latestATSResult);
+            atsModal.classList.add('active');
         } else {
-            const topTip = result.factors[0];
-            showToast(`Score: ${result.score}% (${result.grade}) - Tip: ${topTip}`);
+            // Fallback toast
+            const result = latestATSResult;
+            if (result.factors.length === 0) {
+                showToast(`🎉 Excellent! Your resume scores ${result.score}% - ${result.grade}`);
+            } else {
+                const topTip = result.factors[0];
+                showToast(`Score: ${result.score}% (${result.grade}) - Tip: ${topTip}`);
+            }
         }
+    }
+
+    function populateATSModal(result) {
+        const scoreVal = document.getElementById('modalScoreValue');
+        const scoreGrade = document.getElementById('modalScoreGrade');
+        const factorsList = document.getElementById('atsFactorsList');
+        const topTip = document.getElementById('atsTopTip');
+        const progressCircle = document.querySelector('.score-progress');
+
+        if (scoreVal) scoreVal.textContent = result.score;
+        if (scoreGrade) scoreGrade.textContent = result.grade || 'Analysis Complete';
+
+        // Animate Circle
+        if (progressCircle) {
+            const circumference = 2 * Math.PI * 45;
+            const offset = circumference - (result.score / 100) * circumference;
+            progressCircle.style.strokeDashoffset = offset;
+
+            // Color based on score
+            if (result.score >= 80) progressCircle.style.stroke = '#22c55e'; // Green
+            else if (result.score >= 60) progressCircle.style.stroke = '#eab308'; // Yellow
+            else progressCircle.style.stroke = '#ef4444'; // Red
+        }
+
+        // Factors
+        if (factorsList) {
+            factorsList.innerHTML = '';
+
+            // Add positive feedback (implied) or from server if available
+            if (result.score >= 80) {
+                factorsList.innerHTML += `<li class="positive">Based on our analysis, your resume is in great shape!</li>`;
+            }
+
+            // Add negative factors/feedback
+            if (result.factors && result.factors.length > 0) {
+                result.factors.forEach(factor => {
+                    factorsList.innerHTML += `<li class="${factor.includes('Missing') ? 'negative' : 'neutral'}">${factor}</li>`;
+                });
+                if (topTip) topTip.textContent = result.factors[0];
+            } else {
+                factorsList.innerHTML += `<li class="positive">No critical issues found. Great job!</li>`;
+                if (topTip) topTip.textContent = "Keep your resume updated with your latest achievements.";
+            }
+        }
+    }
+
+    // Modal Close Logic
+    const atsModal = document.getElementById('atsFeedbackModal');
+    const closeAtsModal = document.getElementById('closeAtsModal');
+    if (closeAtsModal && atsModal) {
+        closeAtsModal.addEventListener('click', () => atsModal.classList.remove('active'));
+        atsModal.addEventListener('click', (e) => {
+            if (e.target === atsModal) atsModal.classList.remove('active');
+        });
     }
 
     // Personal Information
