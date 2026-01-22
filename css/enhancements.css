@@ -731,6 +731,143 @@
     }
 }
 
+/* Global User Notification */
+.global-notification {
+    position: fixed;
+    bottom: 120px;
+    /* Above developer credit */
+    right: 12px;
+    max-width: 340px;
+    padding: 14px;
+    background: rgba(30, 41, 59, 0.95);
+    border: 1px solid rgba(139, 92, 246, 0.3);
+    border-radius: 16px;
+    backdrop-filter: blur(20px);
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    transform: translateX(120%);
+    transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+    z-index: 10000;
+    /* Below developer credit */
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(139, 92, 246, 0.1);
+}
+
+.global-notification.show {
+    transform: translateX(0);
+}
+
+.notification-flag {
+    font-size: 32px;
+    flex-shrink: 0;
+    line-height: 1;
+    cursor: move;
+    user-select: none;
+    transition: transform 0.2s ease, filter 0.2s ease;
+}
+
+.notification-flag:hover {
+    transform: scale(1.1);
+    filter: brightness(1.2);
+}
+
+.notification-flag:active {
+    cursor: grabbing;
+    transform: scale(0.95);
+}
+
+.notification-content {
+    flex: 1;
+    min-width: 0;
+}
+
+.notification-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 6px;
+    flex-wrap: wrap;
+}
+
+.notification-header strong {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #fff;
+}
+
+.notification-country {
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.6);
+    background: rgba(139, 92, 246, 0.15);
+    padding: 2px 8px;
+    border-radius: 10px;
+    border: 1px solid rgba(139, 92, 246, 0.3);
+}
+
+.notification-message {
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.85);
+    line-height: 1.5;
+    margin-bottom: 8px;
+    font-style: italic;
+}
+
+.notification-meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.notification-template {
+    font-size: 0.7rem;
+    color: rgba(139, 92, 246, 0.9);
+    background: rgba(139, 92, 246, 0.12);
+    padding: 3px 8px;
+    border-radius: 8px;
+    border: 1px solid rgba(139, 92, 246, 0.25);
+    font-weight: 500;
+}
+
+.notification-time {
+    font-size: 0.7rem;
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.notification-close {
+    background: none;
+    border: none;
+    color: rgba(255, 255, 255, 0.5);
+    cursor: pointer;
+    padding: 4px;
+    flex-shrink: 0;
+    transition: color 0.2s ease;
+}
+
+.notification-close:hover {
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.notification-close svg {
+    width: 16px;
+    height: 16px;
+}
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+    .global-notification {
+        bottom: 60px;
+        right: 10px;
+        max-width: calc(100% - 20px);
+        padding: 12px;
+    }
+
+    .notification-flag {
+        font-size: 28px;
+    }
+}
+
 /* ============================================
    Trusted Companies Section
    ============================================ */
@@ -1227,4 +1364,25 @@
 
 .close-modal:hover {
     color: var(--text-primary);
+}
+
+/* ============================================
+   Left Side Notification
+   ============================================ */
+.global-notification-left {
+    left: 20px !important;
+    right: auto !important;
+    bottom: 80px !important;
+    transform: translateX(-120%) !important;
+}
+
+.global-notification-left.show {
+    transform: translateX(0) !important;
+}
+
+@media (max-width: 768px) {
+    .global-notification-left {
+        left: 10px !important;
+        bottom: 65px !important;
+    }
 }

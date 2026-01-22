@@ -114,12 +114,14 @@
                 <span>AI-Powered Resume Analysis</span>
             </div>
             <h1 class="hero-title">
-                Land Your Dream Job with an
-                <span class="gradient-text">ATS-Optimized</span> Resume
+                Land Your Dream Job with
+                <br>
+                <span class="gradient-text" id="trendingWord">ATS-Optimized</span> Resume
             </h1>
             <p class="hero-description">
                 Analyze your resume instantly against ATS systems, get actionable insights,
-                and build professional resumes that pass automated screening.
+                and build professional resumes that pass automated screening with <strong>AI-powered
+                    intelligence</strong>.
             </p>
             <div class="hero-buttons">
                 <a href="analyzer.html" class="btn btn-primary btn-lg">
@@ -882,14 +884,20 @@
         </button>
     </div>
 
-    <!-- Random User Notification -->
-    <div class="random-notification" id="randomNotification">
-        <div class="notification-avatar" id="notificationAvatar">J</div>
+    <!-- Global User Notification -->
+    <div class="global-notification" id="globalNotification">
+        <div class="notification-flag" id="notificationFlag">🇺🇸</div>
         <div class="notification-content">
-            <div class="notification-title" id="notificationTitle"><strong>John</strong> just got an interview!</div>
-            <div class="notification-text" id="notificationText">Used ResumeRadar to optimize resume and scored 92/100
+            <div class="notification-header">
+                <strong id="notificationName">John Smith</strong>
+                <span class="notification-country" id="notificationCountry">United States</span>
             </div>
-            <div class="notification-time" id="notificationTime">Just now</div>
+            <div class="notification-message" id="notificationMessage">"Just got my dream job! Resume Radar helped me
+                improve my ATS score from 65 to 95!"</div>
+            <div class="notification-meta">
+                <span class="notification-template" id="notificationTemplate">Using Modern Professional template</span>
+                <span class="notification-time">2 minutes ago</span>
+            </div>
         </div>
         <button class="notification-close" onclick="this.parentElement.classList.remove('show')">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -899,7 +907,29 @@
         </button>
     </div>
 
-    <!-- Payment Modal -->
+    
+    <!-- Global User Notification (Left Side) -->
+    <div class="global-notification global-notification-left" id="globalNotificationLeft">
+        <div class="notification-flag" id="notificationFlagLeft">🇨🇦</div>
+        <div class="notification-content">
+            <div class="notification-header">
+                <strong id="notificationNameLeft">Emma Taylor</strong>
+                <span class="notification-country" id="notificationCountryLeft">Canada</span>
+            </div>
+            <div class="notification-message" id="notificationMessageLeft">"Landed 3 interviews! Amazing!"</div>
+            <div class="notification-meta">
+                <span class="notification-template" id="notificationTemplateLeft">Using ATS-Friendly template</span>
+                <span class="notification-time">5 minutes ago</span>
+            </div>
+        </div>
+        <button class="notification-close" onclick="this.parentElement.classList.remove('show')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+        </button>
+    </div>
+<!-- Payment Modal -->
     <div id="paymentModal" class="payment-modal">
         <div class="payment-modal-content">
             <button class="close-modal" onclick="closePaymentModal()">&times;</button>
@@ -1004,6 +1034,80 @@
             Detecting location...
         </div>
     </div>
+
+    <!-- Developer Credit Badge -->
+    <div class="developer-credit">
+        <span>Made with</span>
+        <span class="developer-credit-heart">❤️</span>
+        <span>by</span>
+        <span class="developer-credit-name">SYED SUMEER</span>
+    </div>
+
+
+    <!-- Developer Credit Timer Script -->
+    <script>
+        // Developer Credit 60-second timer
+        (function () {
+            const devCredit = document.querySelector('.developer-credit');
+            if (!devCredit) return;
+
+            let isVisible = true;
+
+            setInterval(function () {
+                if (isVisible) {
+                    // Fade out
+                    devCredit.style.opacity = '0';
+                    devCredit.style.transform = 'translateY(10px)';
+                } else {
+                    // Fade in
+                    devCredit.style.opacity = '1';
+                    devCredit.style.transform = 'translateY(0)';
+                }
+                isVisible = !isVisible;
+            }, 60000); // 60 seconds
+        })();
+    </script>
+
+    <!-- Trending Words Rotation Script -->
+    <script>
+        // Trending words rotation
+        (function () {
+            const trendingWords = [
+                'ATS-Optimized',
+                'AI-Powered',
+                'Smart',
+                'Professional',
+                'Modern',
+                'Winning',
+                'Data-Driven',
+                'Perfect',
+                'Interview-Ready'
+            ];
+
+            const trendingWordElement = document.getElementById('trendingWord');
+            if (!trendingWordElement) return;
+
+            let currentIndex = 0;
+
+            setInterval(function () {
+                // Fade out
+                trendingWordElement.style.opacity = '0';
+                trendingWordElement.style.transform = 'translateY(-10px)';
+
+                setTimeout(function () {
+                    currentIndex = (currentIndex + 1) % trendingWords.length;
+                    trendingWordElement.textContent = trendingWords[currentIndex];
+
+                    // Fade in
+                    trendingWordElement.style.opacity = '1';
+                    trendingWordElement.style.transform = 'translateY(0)';
+                }, 300);
+            }, 3000); // Change every 3 seconds
+        })();
+    </script>
+
+    <!-- Global Notifications -->
+    <script src="js/global-notifications.js"></script>
 
     <!-- Security Module -->
     <script src="js/security.js"></script>

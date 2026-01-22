@@ -254,6 +254,13 @@ body {
     align-items: center;
     gap: var(--space-lg);
     list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.nav-links li {
+    display: flex;
+    align-items: center;
 }
 
 .nav-links a {
@@ -262,6 +269,9 @@ body {
     font-size: 0.9rem;
     font-weight: 500;
     transition: var(--transition-fast);
+    display: inline-flex;
+    align-items: center;
+    white-space: nowrap;
 }
 
 .nav-links a:hover {
@@ -2504,4 +2514,157 @@ textarea:focus-visible {
     100% {
         background-color: transparent;
     }
+}
+
+/* ============================================
+   Developer Credit Badge
+   ============================================ */
+.developer-credit {
+    position: fixed;
+    bottom: 12px;
+    right: 12px;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    padding: 4px 10px;
+    background: rgba(30, 41, 59, 0.92);
+    backdrop-filter: blur(20px);
+    border-radius: 20px;
+    border: 1.5px solid transparent;
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.2);
+    font-size: 0.65rem;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.85);
+    text-decoration: none;
+    transition: all var(--transition-base);
+    position: relative;
+    overflow: hidden;
+    opacity: 0;
+    animation: fadeInCredit 0.5s ease-in-out 0.3s forwards;
+}
+
+@keyframes fadeInCredit {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.developer-credit::before {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    background: linear-gradient(90deg,
+            var(--primary-purple),
+            var(--primary-pink),
+            var(--primary-blue),
+            var(--primary-cyan),
+            var(--primary-purple));
+    background-size: 300% 100%;
+    border-radius: var(--radius-pill);
+    z-index: -1;
+    animation: rgbBorderFlow 4s linear infinite;
+    opacity: 0.7;
+}
+
+.developer-credit::after {
+    content: '';
+    position: absolute;
+    inset: 2px;
+    background: rgba(30, 41, 59, 0.95);
+    backdrop-filter: blur(20px);
+    border-radius: var(--radius-pill);
+    z-index: -1;
+}
+
+.developer-credit:hover {
+    transform: translateY(-4px) scale(1.05);
+    box-shadow: 0 12px 40px rgba(139, 92, 246, 0.4);
+}
+
+.developer-credit:hover::before {
+    opacity: 1;
+    animation-duration: 2s;
+}
+
+.developer-credit-heart {
+    font-size: 0.7rem;
+    color: var(--primary-pink);
+    animation: heartbeat 1.5s ease-in-out infinite;
+    display: inline-block;
+}
+
+@keyframes heartbeat {
+
+    0%,
+    100% {
+        transform: scale(1);
+    }
+
+    10%,
+    30% {
+        transform: scale(1.2);
+    }
+
+    20%,
+    40% {
+        transform: scale(1);
+    }
+}
+
+.developer-credit-text {
+    display: flex;
+    align-items: center;
+    gap: 3px;
+}
+
+.developer-credit-name {
+    font-weight: 700;
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* Mobile responsiveness for developer credit */
+@media (max-width: 768px) {
+    .developer-credit {
+        bottom: 10px;
+        right: 10px;
+        padding: 3px 8px;
+        font-size: 0.6rem;
+    }
+
+    .developer-credit-heart {
+        font-size: 0.65rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .developer-credit {
+        bottom: 10px;
+        right: 10px;
+        padding: 5px 10px;
+        font-size: 0.65rem;
+    }
+
+    .developer-credit-text {
+        gap: 3px;
+    }
+
+    .developer-credit-heart {
+        font-size: 0.75rem;
+    }
+}
+
+/* Trending Word Animation */
+#trendingWord {
+    display: inline-block;
+    transition: opacity 0.3s ease, transform 0.3s ease;
 }
