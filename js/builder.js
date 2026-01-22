@@ -1008,6 +1008,50 @@ function initBuilderV2() {
             updateATSScore();
         }
 
+        // PDF Download - Defined before initActionButtons
+        function downloadPDF() {
+            const template = document.getElementById('resumeTemplate');
+            if (!template) return;
+
+            const printWindow = window.open('', '_blank');
+            printWindow.document.write(`
+                <!DOCTYPE html>
+                <html>
+                <head>
+                    <title>${resumeData.personal.fullName || 'Resume'}</title>
+                    <style>
+                        * { margin: 0; padding: 0; box-sizing: border-box; }
+                        body { font-family: 'Inter', -apple-system, sans-serif; line-height: 1.5; color: #333; }
+                        .resume-template { max-width: 800px; margin: 0 auto; padding: 40px; }
+                        .resume-header { margin-bottom: 24px; padding-bottom: 16px; border-bottom: 2px solid rgb(139,92,246); }
+                        .template-modern .resume-header { background: linear-gradient(135deg, rgb(139,92,246), rgb(59,130,246)); color: white; margin: -40px -40px 24px; padding: 40px; border: none; }
+                        .resume-name { font-size: 28pt; font-weight: 700; margin-bottom: 4px; }
+                        .template-modern .resume-name { color: white; }
+                        .resume-title { font-size: 14pt; color: #666; margin-bottom: 12px; }
+                        .template-modern .resume-title { color: rgba(255,255,255,0.9); }
+                        .resume-contact { display: flex; flex-wrap: wrap; gap: 16px; font-size: 10pt; color: #666; }
+                        .template-modern .resume-contact { color: rgba(255,255,255,0.8); }
+                        .resume-section { margin-bottom: 20px; }
+                        .resume-section h2 { font-size: 12pt; font-weight: 700; color: rgb(139,92,246); margin-bottom: 12px; padding-bottom: 4px; border-bottom: 1px solid #e5e5e5; text-transform: uppercase; letter-spacing: 0.5px; }
+                        .resume-entry { margin-bottom: 16px; }
+                        .resume-entry-header { display: flex; justify-content: space-between; margin-bottom: 4px; }
+                        .resume-entry h3 { font-size: 11pt; font-weight: 600; }
+                        .resume-entry .company, .resume-entry .school { font-size: 10pt; color: #666; }
+                        .resume-entry .date { font-size: 10pt; color: #888; }
+                        .resume-entry p { font-size: 10pt; color: #444; }
+                        .skills-list { display: flex; flex-wrap: wrap; gap: 8px; }
+                        .skills-list span { background: rgba(139,92,246,0.1); color: rgb(139,92,246); padding: 4px 12px; border-radius: 20px; font-size: 10pt; }
+                        @media print { body { print-color-adjust: exact; -webkit-print-color-adjust: exact; } }
+                    </style>
+                </head>
+                <body>${template.outerHTML}</body>
+                </html>
+            `);
+            printWindow.document.close();
+            setTimeout(() => printWindow.print(), 500);
+        }
+
+
         if (elements.saveBtn) {
             elements.saveBtn.addEventListener('click', () => {
                 saveToStorage();
@@ -1291,48 +1335,6 @@ function initBuilderV2() {
         }
     }
 
-    // PDF Download
-    function downloadPDF() {
-        const template = document.getElementById('resumeTemplate');
-        if (!template) return;
-
-        const printWindow = window.open('', '_blank');
-        printWindow.document.write(`
-            <!DOCTYPE html>
-            <html>
-            <head>
-                <title>${resumeData.personal.fullName || 'Resume'}</title>
-                <style>
-                    * { margin: 0; padding: 0; box-sizing: border-box; }
-                    body { font-family: 'Inter', -apple-system, sans-serif; line-height: 1.5; color: #333; }
-                    .resume-template { max-width: 800px; margin: 0 auto; padding: 40px; }
-                    .resume-header { margin-bottom: 24px; padding-bottom: 16px; border-bottom: 2px solid rgb(139,92,246); }
-                    .template-modern .resume-header { background: linear-gradient(135deg, rgb(139,92,246), rgb(59,130,246)); color: white; margin: -40px -40px 24px; padding: 40px; border: none; }
-                    .resume-name { font-size: 28pt; font-weight: 700; margin-bottom: 4px; }
-                    .template-modern .resume-name { color: white; }
-                    .resume-title { font-size: 14pt; color: #666; margin-bottom: 12px; }
-                    .template-modern .resume-title { color: rgba(255,255,255,0.9); }
-                    .resume-contact { display: flex; flex-wrap: wrap; gap: 16px; font-size: 10pt; color: #666; }
-                    .template-modern .resume-contact { color: rgba(255,255,255,0.8); }
-                    .resume-section { margin-bottom: 20px; }
-                    .resume-section h2 { font-size: 12pt; font-weight: 700; color: rgb(139,92,246); margin-bottom: 12px; padding-bottom: 4px; border-bottom: 1px solid #e5e5e5; text-transform: uppercase; letter-spacing: 0.5px; }
-                    .resume-entry { margin-bottom: 16px; }
-                    .resume-entry-header { display: flex; justify-content: space-between; margin-bottom: 4px; }
-                    .resume-entry h3 { font-size: 11pt; font-weight: 600; }
-                    .resume-entry .company, .resume-entry .school { font-size: 10pt; color: #666; }
-                    .resume-entry .date { font-size: 10pt; color: #888; }
-                    .resume-entry p { font-size: 10pt; color: #444; }
-                    .skills-list { display: flex; flex-wrap: wrap; gap: 8px; }
-                    .skills-list span { background: rgba(139,92,246,0.1); color: rgb(139,92,246); padding: 4px 12px; border-radius: 20px; font-size: 10pt; }
-                    @media print { body { print-color-adjust: exact; -webkit-print-color-adjust: exact; } }
-                </style>
-            </head>
-            <body>${template.outerHTML}</body>
-            </html>
-        `);
-        printWindow.document.close();
-        setTimeout(() => printWindow.print(), 500);
-    }
 
     // Debounce
     function debounce(func, wait) {
