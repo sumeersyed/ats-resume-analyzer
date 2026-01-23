@@ -75,19 +75,61 @@ function initAnalyzer() {
             'text/plain'];
         const validExtensions = ['pdf', 'doc', 'docx', 'txt'];
         const extension = file.name.split('.').pop().toLowerCase();
+        const maxSizeBytes = 5 * 1024 * 1024; // 5MB limit
 
+        // Validate file extension
         if (!validExtensions.includes(extension)) {
-            alert('Please upload a PDF, DOCX, DOC, or TXT file.');
+            showFileError('❌ Invalid file type. Please upload a PDF, DOCX, DOC, or TXT file.');
             return;
         }
 
+        // Validate file size
+        if (file.size > maxSizeBytes) {
+            showFileError(`❌ File too large. Maximum size is 5MB. Your file is ${window.resumeUtils.formatFileSize(file.size)}.`);
+            return;
+        }
+
+        // File is valid
         selectedFile = file;
         fileName.textContent = file.name;
         fileSize.textContent = window.resumeUtils.formatFileSize(file.size);
 
+        // Smooth transition
         uploadZone.style.display = 'none';
         fileInfo.style.display = 'flex';
         analyzeBtn.disabled = false;
+
+        // Add success animation
+        fileInfo.classList.add('file-uploaded');
+        setTimeout(() => fileInfo.classList.remove('file-uploaded'), 600);
+    }
+
+    function showFileError(message) {
+        // Create temporary error message
+        const errorDiv = document.createElement('div');
+        errorDiv.className = 'file-error-message';
+        errorDiv.textContent = message;
+        errorDiv.style.cssText = `
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            color: white;
+            padding: 16px 24px;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(239, 68, 68, 0.3);
+            z-index: 10000;
+            font-weight: 500;
+            animation: slideDown 0.3s ease-out;
+        `;
+
+        document.body.appendChild(errorDiv);
+
+        setTimeout(() => {
+            errorDiv.style.animation = 'slideUp 0.3s ease-out';
+            setTimeout(() => errorDiv.remove(), 300);
+        }, 3000);
     }
 
     function resetUpload() {
